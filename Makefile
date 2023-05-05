@@ -6,7 +6,7 @@
 #    By: mabbas <mabbas@students.42wolfsburg.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 12:35:38 by lkavalia          #+#    #+#              #
-#    Updated: 2023/05/05 19:21:29 by mabbas           ###   ########.fr        #
+#    Updated: 2023/05/05 19:30:53 by mabbas           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,14 +40,12 @@ LIBFT = ./libs/libft/
 
 SUBM_STATE := $(shell find libs/libft -type f)
 
-all: $(SUBM_FLAG) libft $(NAME) 
+all: $(SUBM_FLAG) libft $(NAME)
 
 UNAME := $(shell uname)
 
 ifeq ($(SUBM_STATE),)
 SUBM_FLAG	= submodule
-else 
-SUBM_FLAG	= 
 endif
 
 %.o: %.c
@@ -74,8 +72,9 @@ $(NAME): minilibx-linux/libmlx.a $(OBJS)
 endif
 
 submodule:
-	@git submodule init 
-	@git submodule update
+	@git submodule foreach git pull origin main
+	@git submodule update --init
+	
 
 clean:
 	@$(MAKE) -C $(LIBFT) clean
@@ -91,4 +90,4 @@ re: fclean all
 	@echo "\nInstalling....."
 	@echo "\nInstalled"
 
-.PHONY: all clean fclean re libft
+.PHONY: all clean fclean re libft submodule
