@@ -6,7 +6,7 @@
 #    By: mabbas <mabbas@students.42wolfsburg.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 12:35:38 by lkavalia          #+#    #+#              #
-#    Updated: 2023/05/05 19:30:53 by mabbas           ###   ########.fr        #
+#    Updated: 2023/05/05 19:40:46 by mabbas           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,13 +40,9 @@ LIBFT = ./libs/libft/
 
 SUBM_STATE := $(shell find libs/libft -type f)
 
-all: $(SUBM_FLAG) libft $(NAME)
+all: update-all libft $(NAME)
 
 UNAME := $(shell uname)
-
-ifeq ($(SUBM_STATE),)
-SUBM_FLAG	= submodule
-endif
 
 %.o: %.c
 	@echo "\033[0;35m.\033[0m\c"
@@ -71,11 +67,13 @@ $(NAME): minilibx-linux/libmlx.a $(OBJS)
 	@$(CC) $(OBJS) $(CFLAGS) $(LIBFT)libft.a minilibx-linux/libmlx.a -L/usr/include/X11/extensions -lX11 -lXext -lm -o $(NAME)
 endif
 
-submodule:
-	@git submodule foreach git pull origin main
+update:
+	@git pull -q origin master
 	@git submodule update --init
-	
 
+update-all: update
+	@git submodule foreach git pull origin master
+	
 clean:
 	@$(MAKE) -C $(LIBFT) clean
 	@rm -f $(OBJS)
@@ -90,4 +88,4 @@ re: fclean all
 	@echo "\nInstalling....."
 	@echo "\nInstalled"
 
-.PHONY: all clean fclean re libft submodule
+.PHONY: all clean fclean re libft update-all
