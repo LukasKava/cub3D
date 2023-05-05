@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rehernan <rehernan@students.42wolfsburg    +#+  +:+       +#+         #
+#    By: mabbas <mabbas@students.42wolfsburg.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/10 11:52:30 by rehernan          #+#    #+#              #
-#    Updated: 2023/04/07 15:21:24 by rehernan         ###   ########.fr        #
+#    Updated: 2023/05/05 18:57:36 by mabbas           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,17 +30,17 @@ CFLAGS = -Wall -Wextra -Werror
 all: $(NAME)
 
 $(NAME): $(OBJ_FILES) $(BONUS)
-	ar rc $@ $^
+	@ar rc $@ $^
 bonus: $(BONUS)
-	ar rc $(NAME) $^
+	@ar rc $(NAME) $^
 %.o: %.c $(HEADER_FILES)
-	$(CC) -c $(CFLAGS) -o $@ $<
+	@$(CC) -c $(CFLAGS) -o $@ $<
 
 clean:
-	rm -f $(OBJ_FILES) $(BONUS)
+	@rm -f $(OBJ_FILES) $(BONUS)
 
 fclean: clean
-	rm -f $(NAME) libft.so *.out
+	@rm -f $(NAME)
 
 re: fclean all
 

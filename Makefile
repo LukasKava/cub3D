@@ -6,7 +6,7 @@
 #    By: mabbas <mabbas@students.42wolfsburg.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 12:35:38 by lkavalia          #+#    #+#              #
-#    Updated: 2023/05/05 18:39:31 by mabbas           ###   ########.fr        #
+#    Updated: 2023/05/05 19:00:14 by mabbas           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,15 +40,21 @@ SUBM_STATE := $(shell find libs/libft -type f)
 LIBFT = ./libs/libft/
 
 
-all: $(NAME) libft
+all: libft $(NAME)
 
 UNAME := $(shell uname)
 
-SUBM_STATE := $(shell find libs/libft -type f)
+#SUBM_STATE := $(shell find libs/libft -type f)
+ifeq ($(SUBM_STATE),)
+SUBM_FLAG	= submodule
+else 
+SUBM_FLAG	= 
+endif
+
 
 %.o: %.c
-	@$(CC) $(CFLAGS) -Imlx -I/opt/X11/include -c $< -o $@
 	@echo "\033[0;35m_._-.-_.-_\033[0m\c"
+	@$(CC) $(CFLAGS) -Imlx -I/opt/X11/include -c $< -o $@
 
 minilibx-linux/libmlx.a:
 	@make -C minilibx-linux
@@ -62,13 +68,17 @@ libft:
 
 ifeq ($(UNAME), Darwin)
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) $(CFLAGS) $(LIBFT)libft.a -lmlx -framework OpenGL -framework AppKit ./libftprintf/libftprintf.a -o $(NAME)
+	@$(CC) $(OBJS) $(CFLAGS) $(LIBFT)libft.a -lmlx -framework OpenGL -framework AppKit -o $(NAME)
 endif
 
 ifeq ($(UNAME), Linux)
 $(NAME): minilibx-linux/libmlx.a $(OBJS)
-	$(CC) $(OBJS) $(CFLAGS) $(LIBFT)libft.a minilibx-linux/libmlx.a -L/usr/include/X11/extensions -lX11 -lXext -lm -o $(NAME)
+	@$(CC) $(OBJS) $(CFLAGS) $(LIBFT)libft.a minilibx-linux/libmlx.a -L/usr/include/X11/extensions -lX11 -lXext -lm -o $(NAME)
 endif
+
+submodule:
+	git submodule init 
+	git submodule update
 
 clean:
 	@$(MAKE) -C $(LIBFT) clean
