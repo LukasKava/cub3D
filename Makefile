@@ -6,7 +6,7 @@
 #    By: mabbas <mabbas@students.42wolfsburg.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 12:35:38 by lkavalia          #+#    #+#              #
-#    Updated: 2023/05/05 19:40:46 by mabbas           ###   ########.fr        #
+#    Updated: 2023/05/05 21:20:11 by mabbas           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ LIBFT = ./libs/libft/
 
 SUBM_STATE := $(shell find libs/libft -type f)
 
-all: update-all libft $(NAME)
+all: libft $(NAME)
 
 UNAME := $(shell uname)
 
@@ -67,12 +67,8 @@ $(NAME): minilibx-linux/libmlx.a $(OBJS)
 	@$(CC) $(OBJS) $(CFLAGS) $(LIBFT)libft.a minilibx-linux/libmlx.a -L/usr/include/X11/extensions -lX11 -lXext -lm -o $(NAME)
 endif
 
-update:
-	@git pull -q origin master
+module1/.git: .gitmodules
 	@git submodule update --init
-
-update-all: update
-	@git submodule foreach git pull origin master
 	
 clean:
 	@$(MAKE) -C $(LIBFT) clean
@@ -88,4 +84,4 @@ re: fclean all
 	@echo "\nInstalling....."
 	@echo "\nInstalled"
 
-.PHONY: all clean fclean re libft update-all
+.PHONY: all clean fclean re libft 
