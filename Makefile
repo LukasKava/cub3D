@@ -6,7 +6,7 @@
 #    By: mabbas <mabbas@students.42wolfsburg.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 12:35:38 by lkavalia          #+#    #+#              #
-#    Updated: 2023/05/05 19:00:14 by mabbas           ###   ########.fr        #
+#    Updated: 2023/05/05 19:21:29 by mabbas           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,25 +35,23 @@ SRCS =	./SRC/main.c 					\
 
 OBJS = $(SRCS:.c=.o)
 
-SUBM_STATE := $(shell find libs/libft -type f)
 
 LIBFT = ./libs/libft/
 
+SUBM_STATE := $(shell find libs/libft -type f)
 
-all: libft $(NAME)
+all: $(SUBM_FLAG) libft $(NAME) 
 
 UNAME := $(shell uname)
 
-#SUBM_STATE := $(shell find libs/libft -type f)
 ifeq ($(SUBM_STATE),)
 SUBM_FLAG	= submodule
 else 
 SUBM_FLAG	= 
 endif
 
-
 %.o: %.c
-	@echo "\033[0;35m_._-.-_.-_\033[0m\c"
+	@echo "\033[0;35m.\033[0m\c"
 	@$(CC) $(CFLAGS) -Imlx -I/opt/X11/include -c $< -o $@
 
 minilibx-linux/libmlx.a:
@@ -63,7 +61,6 @@ minilibx-linux/libmlx.a:
 
 libft:
 	@$(MAKE) -C $(LIBFT) 
-	@echo "Compiling libraries..."
 
 
 ifeq ($(UNAME), Darwin)
@@ -77,20 +74,21 @@ $(NAME): minilibx-linux/libmlx.a $(OBJS)
 endif
 
 submodule:
-	git submodule init 
-	git submodule update
+	@git submodule init 
+	@git submodule update
 
 clean:
 	@$(MAKE) -C $(LIBFT) clean
 	@rm -f $(OBJS)
-	@echo "cleaning..."
+	@echo "\nUninstalling..."
 
 fclean: clean
 	@$(MAKE) -C $(LIBFT) fclean
 	@rm -f $(NAME)
-	@echo "fully cleaning..."
+	@echo "\nUninstalled"
 
 re: fclean all
-	@echo "remaking files..."
+	@echo "\nInstalling....."
+	@echo "\nInstalled"
 
 .PHONY: all clean fclean re libft
