@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 18:00:09 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/04 20:53:59 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/05 15:51:14 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ typedef struct s_vars {
 typedef struct s_texture
 {
 	void	*img;
-	char 	*data;
+	char	*data;
 	int		size_line;
 	int		bpp;
 	int		endian;
-	int		img_width;
-	int		img_height;
+	int		w;
+	int		h;
 }				t_texture;
 
 typedef struct s_wall_texures
@@ -49,7 +49,7 @@ typedef struct s_wall_texures
 	t_texture	*texture_south;
 	t_texture	*texture_west;
 	t_texture	*texture_east;
-}				t_wall_tex;		
+}				t_wall_tex;
 
 typedef struct s_data {
 	void	*img;
@@ -96,41 +96,35 @@ typedef struct s_hive
 	t_vars		*vars;
 	t_brez		*b;
 	t_wall_tex	*wall_tex;
-	int		line[4];
-	int		p_c_x;
-	int		p_c_y;
-	int		c_tile_pos_x;
-	int		c_tile_pos_y;
-	double	angle;
-	int		r[8];
-	int		p_c[8];
-	int		p_m[8];
-	int		p_offset;
-	int		move;
-	double	f_int_x;
-	double	chosenx;
-	double	choseny;
-	double	f_int_y;
-	double	c_horizontal;
-	double	c_vertical;
-	double	c_hor_x;
-	double	c_hor_y;
-	double	c_ver_x;
-	double	c_ver_y;
-	bool	x_ray;
-	double	horizontal_x_scaling;
-	int		horizontal_y;
-	int		vertical_x;
-	double	vertical_y_scaling;
-	int		quadrant;
-	int		wall_side;
-	double	real_angle;
-	double	shortest_dist_to_wall;
-	double	one_colum_increase;
-	double	p_dist_from_projection_plane;
-	int		wall_color;
-	double	texure_to_tile_ratio_x;
-	double	texure_to_lineH_ratio_y;
+	int			line[4];
+	int			p_c_x;
+	int			p_c_y;
+	int			current_tile_pos_x;
+	int			current_tile_pos_y;
+	double		angle;
+	int			r[8];
+	int			p_c[8];
+	int			p_m[8];
+	int			p_offset;
+	int			move;
+	double		f_int_x;
+	double		f_int_y;
+	double		current_hor_len;
+	double		current_ver_len;
+	double		current_hor_x;
+	double		current_hor_y;
+	double		current_ver_x;
+	double		current_ver_y;
+	bool		x_ray;
+	double		horizontal_x_scaling;
+	double		vertical_y_scaling;
+	int			quadrant;
+	double		real_angle;
+	double		shortest_dist_to_wall;
+	double		one_colum_increase;
+	double		p_dist_from_projection_plane;
+	double		tex_to_tile_ratio_x;
+	double		tex_to_line_h_ratio_y;
 }				t_hive;
 
 //	============>	parsing	==========================
@@ -140,9 +134,6 @@ int		check_right(t_main *main, int x, int y, int x_r);
 int		check_middle(t_main *main, int x, int y);
 int		check_left(t_main *main, int x, int y, int x_l);
 void	check_spaces(t_main *main, int x, int y);
-
-//debugging.c
-void	check_map(t_main *main);
 
 //errors_utils.c
 bool	map_fragment_found(char *buffer);
@@ -165,6 +156,7 @@ int		check_map_fragments(t_main *main, char *b, int *c);
 void	parsing(t_main *main, char **argv);
 
 //texure_handling.c
+void	load_texure(t_texture *t, t_hive *h, char *t_path);
 char	*save_element(t_main *main, char *buffer);
 void	take_care_of_texure(char *buffer, t_main *main, char name);
 void	load_xpm(t_hive *hive);
@@ -176,8 +168,14 @@ void	draw_line(t_hive *h, int color);
 
 //	============>	drawing	==========================
 
+//raycasting_utils.c
+void	first_horizontal(t_hive *h, int start_tile_pos_x, int start_tile_pos_y);
+void	first_vertical(t_hive *h, int start_tile_pos_x, int start_tile_pos_y);
+void	decide_quadrant(t_hive *h);
+
 //raycasting.c
-void	raycasting(t_hive *h);
+void	raycasting(t_hive *h, int start_tile_pos_x, int start_tile_pos_y);
+void	draw_2d_rays(t_hive *h);
 
 //raycasting2.c
 int		check_horizontal_wall(t_hive *h);
@@ -238,11 +236,10 @@ void	check_player_direction(t_main *main);
 # define B "\033[0m"
 # define RED "\033[0;31m"
 # define GREEN "\033[0;32m"
-# define YELL "\033[0;33m"
-# define CYAN "\033[0;36m"
+# define YELL	"\033[0;33m"
 
 //Radians
-# define RADIAN (M_PI / 180)
+# define RADIAN 0.0174532925
 
 //Keys
 # ifdef __APPLE__
@@ -263,9 +260,8 @@ void	check_player_direction(t_main *main);
 #  define ESC_KEY	65307
 # endif
 
-//Tile sizes
-# define T_HEIGHT	32
-# define T_WIDTH	32
+//Tile size
+# define TILE	32
 
 //Textures and colors
 # define D_NO "/Users/lkavalia/school/Cub3d/assets/textures/default_north.xpm"

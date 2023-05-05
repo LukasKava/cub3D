@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 17:11:19 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/04 20:27:18 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/05 15:50:09 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,8 @@ void	initialize_main(t_main *main)
 	main->map = NULL;
 }
 
-void	initialize_hive(t_hive *hive)
+void	calloc_struct(t_hive *hive)
 {
-	int	i;
-
-	i = 0;
 	hive->main = ft_calloc(sizeof(t_main), 1);
 	hive->data = ft_calloc(sizeof(t_data), 1);
 	hive->vars = ft_calloc(sizeof(t_vars), 1);
@@ -49,6 +46,14 @@ void	initialize_hive(t_hive *hive)
 	hive->wall_tex->texture_south = ft_calloc(sizeof(t_texture), 1);
 	hive->wall_tex->texture_west = ft_calloc(sizeof(t_texture), 1);
 	hive->wall_tex->texture_east = ft_calloc(sizeof(t_texture), 1);
+}
+
+void	initialize_hive(t_hive *hive)
+{
+	int	i;
+
+	i = 0;
+	calloc_struct(hive);
 	hive->b->decision_v = 0;
 	hive->b->delta_x = 0;
 	hive->b->delta_y = 0;

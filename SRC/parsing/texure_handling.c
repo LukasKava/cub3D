@@ -6,11 +6,22 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 12:30:45 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/04 00:23:18 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/05 15:51:05 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+void	load_texure(t_texture *t, t_hive *h, char *t_path)
+{
+	t->h = 0;
+	t->w = 0;
+	t->img = mlx_xpm_file_to_image(h->vars->mlx, t_path, &t->w, &t->h);
+	if (t->img == NULL)
+		ft_exiterr(XPM_HAS_FAILED_TO_OPEN);
+	t->data = mlx_get_data_addr(t->img, &t->bpp, &t->size_line, &t->endian);
+	mlx_put_image_to_window(h->vars->mlx, h->vars->win, t->img, t->w, t->h);
+}
 
 static char	*prepare_element_path(char *str)
 {
@@ -36,6 +47,17 @@ static char	*prepare_element_path(char *str)
 	return (element_path);
 }
 
+void	free_splitted(char **split, char *element_name)
+{
+	int	i;
+
+	i = 0;
+	while (split[i] != NULL)
+		free(split[i++]);
+	free(split);
+	free(element_name);
+}
+
 char	*save_element(t_main *main, char *buffer)
 {
 	int		i;
@@ -51,20 +73,12 @@ char	*save_element(t_main *main, char *buffer)
 		i++;
 	if (i != 2)
 	{
-		i = 0;
-		while (split[i] != NULL)
-			free(split[i++]);
-		free(split);
-		free(element_name);
+		free_splitted(split, element_name);
 		clear_the_main_struct(main);
 		ft_exiterr(FOUND_ELEMENT_TRASH);
 	}
 	element_path = prepare_element_path(split[1]);
-	i = 0;
-	while (split[i] != NULL)
-		free(split[i++]);
-	free(split);
-	free(element_name);
+	free_splitted(split, element_name);
 	return (element_path);
 }
 

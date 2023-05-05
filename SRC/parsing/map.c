@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 14:29:41 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/04/16 17:21:48 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/05 15:52:25 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int	check_map_fragments(t_main *main, char *b, int *c)
 			b[i] == 'E' || b[i] == 'W' || b[i] == ' ')
 			i++;
 		else if (b[i] == '\t')
-			parsing_cleaning(main, b, TAB_IN_MAP_FOUND);	//not really needed
+			parsing_cleaning(main, b, TAB_IN_MAP_FOUND);
 		else
 			parsing_cleaning(main, b, WRONG_INFO_IN_MAP);
 	}

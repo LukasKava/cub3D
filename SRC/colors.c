@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:25:57 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/04/28 18:26:13 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/05 14:00:19 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ void	take_care_of_color(char *buffer, t_main *m, char id)
 		parsing_cleaning(m, val, INCORECT_COLOR_VAL);
 	}
 	if (id == 'F')
-		m->ground = (ft_atoi(c[0]) << 16) + (ft_atoi(c[1]) << 8) + ft_atoi(c[2]);
+		m->ground = (ft_atoi(c[0]) << 16) + \
+										(ft_atoi(c[1]) << 8) + ft_atoi(c[2]);
 	else
 		m->roof = (ft_atoi(c[0]) << 16) + (ft_atoi(c[1]) << 8) + ft_atoi(c[2]);
 	while (c[i] != NULL)
