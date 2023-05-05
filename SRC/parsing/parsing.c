@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rehernan <rehernan@students.42wolfsburg    +#+  +:+       +#+        */
+/*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 18:11:11 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/04/30 18:09:22 by rehernan         ###   ########.fr       */
+/*   Updated: 2023/05/05 15:52:44 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,6 @@ void	parsing(t_main *main, char **argv)
 	find_elements(main);
 	open_the_file(main, argv);
 	find_map(main, argv);
-	check_map(main);
 	check_player_direction(main);
 	main->p_x = main->p_pos_x;
 	main->p_y = main->p_pos_y;
@@ -144,5 +143,4 @@ void	parsing(t_main *main, char **argv)
 	printf("check starting pos of player y: [%d]\n", main->p_y);
 	printf("height of the map:			[%d]\n", main->height);
 	check_for_open_walls(main);
-	check_map(main);
 }

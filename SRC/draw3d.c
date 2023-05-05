@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 18:54:45 by rehernan          #+#    #+#             */
-/*   Updated: 2023/05/04 00:17:30 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/05 14:29:21 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,66 +19,77 @@ int	my_mlx_pixel_get(t_hive *h, t_texture *texture, int x, int y)
 	color = texture->data + (y * texture->size_line + x * (texture->bpp / 8));
 	if (h->x_ray == true)
 		return (*(uint32_t *)color);
-	else
-		return (*(int *)color >> 1 & 8355711);
+	return (*(int *)color >> 1 & 8355711);
 }
 
-int	get_start_row(double lineH)
+int	get_start_row(double line_h)
 {
-	if (lineH > S_HEIGHT)
-		return ((lineH - S_HEIGHT) / 2);
+	if (line_h > S_HEIGHT)
+		return ((line_h - S_HEIGHT) / 2);
 	return (0);
 }
 
-void	draw_vertical_line(t_hive *h, double temp_lineH)
+t_texture	*choose_texture(t_hive *h)
 {
-	int		y1;
-	int		row;
-	int		column;
-	int		ver_tex_line;
+	if (h->x_ray == true)
+	{
+		if (h->quadrant == 1 || h->quadrant == 2)
+			return (h->wall_tex->texture_north);
+		return (h->wall_tex->texture_south);
+	}
+	if (h->quadrant == 1 || h->quadrant == 4)
+		return (h->wall_tex->texture_east);
+	return (h->wall_tex->texture_west);
+}
+
+void	draw_vertical_line(t_hive *h, double temp_line_h)
+{
+	int			y1;
+	int			row;
+	int			column;
+	int			ver_tex_line;
+	t_texture	*texture;
 
 	y1 = h->line[1];
-	row = get_start_row(temp_lineH);
+	row = get_start_row(temp_line_h);
 	ver_tex_line = 0;
-	h->texure_to_tile_ratio_x = h->wall_tex->texture_north->img_width / (double)T_WIDTH;
-	h->texure_to_lineH_ratio_y = h->wall_tex->texture_north->img_height / temp_lineH;
+	texture = choose_texture(h);
+	h->tex_to_tile_ratio_x = texture->w / (double)TILE;
+	h->tex_to_line_h_ratio_y = texture->h / temp_line_h;
 	if (h->x_ray == true)
-		ver_tex_line = fmod(h->c_hor_x, T_WIDTH);
+		ver_tex_line = fmod(h->current_hor_x, TILE);
 	else
-		ver_tex_line = fmod(h->c_ver_y, T_WIDTH);
-	column = ver_tex_line * h->texure_to_tile_ratio_x;
+		ver_tex_line = fmod(h->current_ver_y, TILE);
+	column = ver_tex_line * h->tex_to_tile_ratio_x;
 	while (y1 != h->line[3])
 	{
 		my_mlx_pixel_put(h->data, h->line[0], y1, \
-				my_mlx_pixel_get(h, h->wall_tex->texture_north, column, row * h->texure_to_lineH_ratio_y));
-		y1++;
+		my_mlx_pixel_get(h, texture, column, row * h->tex_to_line_h_ratio_y));
 		row++;
+		y1++;
 	}
 }
 
 void	draw_3d(t_hive *h, int a, double fov)
 {
-	double	fish_eye_compensation;
-	double	lineH;
-	double	temp_lineH;
+	double	line_h;
+	double	fish_eye;
+	double	temp_line_h;
 
-	(void)a;
-	fish_eye_compensation = fabs(h->shortest_dist_to_wall * cos(fov * RADIAN));
-	lineH = fabs((T_WIDTH / fish_eye_compensation) * h->p_dist_from_projection_plane);
-	if (lineH > S_HEIGHT)
-	{
-		temp_lineH = lineH;
-		lineH = S_HEIGHT;
-	}
-	else
-		temp_lineH = lineH;
-	h->line[0] = a;								//x1
-	h->line[2] = a;								//x2
-	h->line[1] = (S_HEIGHT / 2) - (lineH / 2);	//y1
-	h->line[3] = (S_HEIGHT / 2) + (lineH / 2);	//y2
-	draw_vertical_line(h, temp_lineH);
-	h->line[1] = (S_HEIGHT / 2) + (lineH / 2);	//y1
-	h->line[3] = S_HEIGHT;	//y2
-	draw_line(h, 0x00AA00, 0);
-	//put_textures(h);
+	fish_eye = fabs(h->shortest_dist_to_wall * cos(fov * RADIAN));
+	line_h = fabs((TILE / fish_eye) * h->p_dist_from_projection_plane);
+	temp_line_h = line_h;
+	if (line_h > S_HEIGHT)
+		line_h = S_HEIGHT;
+	h->line[0] = a;
+	h->line[2] = a;
+	h->line[1] = (S_HEIGHT / 2) - (line_h / 2);
+	h->line[3] = (S_HEIGHT / 2) + (line_h / 2);
+	draw_vertical_line(h, temp_line_h);
+	h->line[1] = (S_HEIGHT / 2) + (line_h / 2);
+	h->line[3] = S_HEIGHT;
+	draw_line(h, h->main->ground);
+	h->line[1] = (S_HEIGHT / 2) - (line_h / 2);
+	h->line[3] = 0;
+	draw_line(h, h->main->roof);
 }

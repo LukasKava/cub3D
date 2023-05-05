@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mabbas <mabbas@students.42wolfsburg.de>    +#+  +:+       +#+         #
+#    By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 12:35:38 by lkavalia          #+#    #+#              #
-#    Updated: 2023/05/04 19:46:02 by mabbas           ###   ########.fr        #
+#    Updated: 2023/05/05 15:46:01 by lkavalia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,6 @@ SRCS =	./SRC/main.c 					\
 		./SRC/parsing/map.c				\
 		./SRC/parsing/errors.c 			\
 		./SRC/parsing/parsing.c			\
-		./SRC/parsing/debugging.c 		\
 		./SRC/parsing/checking_map.c 	\
 		./SRC/parsing/errors_utils.c	\
 		./SRC/parsing/texure_handling.c \
@@ -27,7 +26,9 @@ SRCS =	./SRC/main.c 					\
 		./SRC/player.c 					\
 		./SRC/drawing2d_map.c 			\
 		./SRC/brezenham.c				\
-		./SRC/dda.c						\
+		./SRC/raycasting.c				\
+		./SRC/raycasting2.c				\
+		./SRC/raycasting_utils.c        \
 		./SRC/draw3d.c
 
 OBJS = $(SRCS:.c=.o)

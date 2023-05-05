@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 18:19:31 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/04/28 18:26:13 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/05 16:01:47 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	ft_exiterr(int err)
 		ft_putstr_fd(RED "Map is not closed!\n" B, 2);
 	else if (err == PLAYER_DOES_NOT_EXIST)
 		ft_putstr_fd(RED "Player does not exist in the map!\n" B, 2);
+	else if (err == XPM_HAS_FAILED_TO_OPEN)
+		ft_putstr_fd(RED "XPM has failed to be opened!\n" B, 2);
 	exit (err);
 }
 
@@ -128,8 +130,8 @@ static void	check_file_config(t_main *main)
  * FUNCTION: (check_basic_erros) performs checks before the map is parsed.
  *		1. @argument_ammount: it checks if the argument ammount is correct.
 		2. @check_file_extension: it checks that the file extension would be .cub
- * 		3. @open_the_file: it OPENS the given file and checks the file descriptor if its
- * 				a valid one it saves it in the struct.
+ * 		3. @open_the_file: it OPENS the given file and checks the file descriptor if
+ * 				its a valid one it saves it in the struct.
  * 		4. @check_file_config: Checks for any tabs. It checks that the information
  * 			about the map would be before the map itself. it checks that there would
  * 			not be anything that is not supposed to be there according to pdf.

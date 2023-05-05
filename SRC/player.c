@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 12:30:40 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/04 00:17:51 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/05 14:39:42 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,23 +73,14 @@ void	draw_p_dir_points(t_hive *h, int i, int x)
 	player_rotation(h, 'c', h->p_offset);
 	while (i < 4)
 		h->line[i++] = h->r[x++];
-	//draw_line(h, 3139839);
 	h->p_m[0] = (h->p_c[0] + h->p_c[2]) / 2;
 	h->p_m[1] = (h->p_c[1] + h->p_c[3]) / 2;
-	//my_mlx_pixel_put(h->data, h->p_m[0], h->p_m[1], 0x00FF00);
 	h->p_m[2] = (h->p_c[2] + h->p_c[6]) / 2;
 	h->p_m[3] = (h->p_c[3] + h->p_c[7]) / 2;
-	//my_mlx_pixel_put(h->data, h->p_m[2], h->p_m[3], 0xFFFF00);
 	h->p_m[6] = (h->p_c[4] + h->p_c[6]) / 2;
 	h->p_m[7] = (h->p_c[5] + h->p_c[7]) / 2;
-	//my_mlx_pixel_put(h->data, h->p_m[6], h->p_m[7], 0xFFFF00);
 	h->p_m[4] = (h->p_c[0] + h->p_c[4]) / 2;
 	h->p_m[5] = (h->p_c[1] + h->p_c[5]) / 2;
-	// my_mlx_pixel_put(h->data, h->p_m[4], h->p_m[5], 0xFFFF00);
-	// my_mlx_pixel_put(h->data, h->p_c[0], h->p_c[1], 0xFFFF00);
-	// my_mlx_pixel_put(h->data, h->p_c[2], h->p_c[3], 0xFFFF00);
-	// my_mlx_pixel_put(h->data, h->p_c[4], h->p_c[5], 0xFFFF00);
-	// my_mlx_pixel_put(h->data, h->p_c[6], h->p_c[7], 0xFFFF00);
 }
 
 void	choose_dir(t_hive *h)
@@ -104,29 +95,9 @@ void	choose_dir(t_hive *h)
 		h->p_offset = 270;
 }
 
-void	draw_rectangle(t_hive *h)
-{
-	choose_dir(h);
-	// while (i <= 10)
-	// {
-	// 	h->r[0] = h->p_c_x - (5);
-	// 	h->r[2] = h->p_c_x + (5);
-	// 	h->r[1] = h->p_c_y - (5) + i;
-	// 	h->r[3] = h->p_c_y - (5) + i;
-	// 	player_rotation(h, 'r', h->p_offset);
-	// 	h->line[0] = h->r[0];
-	// 	h->line[1] = h->r[1];
-	// 	h->line[2] = h->r[2];
-	// 	h->line[3] = h->r[3];
-	// 	draw_line(h, 16711680);
-	// 	i++;
-	// }
-	draw_p_dir_points(h, 0, 0);
-}
-
 void	draw_player(t_hive *h, t_data *img)
 {
-	draw_rectangle(h);
-	(void)img;
+	choose_dir(h);
+	draw_p_dir_points(h, 0, 0);
 	my_mlx_pixel_put(img, h->p_c_x, h->p_c_y, 3139839);
 }
