@@ -3,14 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+         #
+#    By: mabbas <mabbas@students.42wolfsburg.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 12:35:38 by lkavalia          #+#    #+#              #
-#    Updated: 2023/05/05 15:46:01 by lkavalia         ###   ########.fr        #
+#    Updated: 2023/05/05 18:39:31 by mabbas           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3d 
+CC = gcc
+CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
 
 SRCS =	./SRC/main.c 					\
 		./SRC/parsing/map.c				\
@@ -33,47 +35,52 @@ SRCS =	./SRC/main.c 					\
 
 OBJS = $(SRCS:.c=.o)
 
-CC = gcc
+SUBM_STATE := $(shell find libs/libft -type f)
 
-CFLAGS = -Wall -Werror -Wextra -g
+LIBFT = ./libs/libft/
 
-all: $(NAME)
+
+all: $(NAME) libft
 
 UNAME := $(shell uname)
+
+SUBM_STATE := $(shell find libs/libft -type f)
+
 %.o: %.c
-	$(CC) $(CFLAGS) -Imlx -I/opt/X11/include -c $< -o $@
+	@$(CC) $(CFLAGS) -Imlx -I/opt/X11/include -c $< -o $@
+	@echo "\033[0;35m_._-.-_.-_\033[0m\c"
+
 minilibx-linux/libmlx.a:
-	make -C minilibx-linux
-	cp MLX/libmlx.a
+	@make -C minilibx-linux
+	@cp MLX/libmlx.a
 	@echo "Making MLX..."
 
+libft:
+	@$(MAKE) -C $(LIBFT) 
+	@echo "Compiling libraries..."
+
+
 ifeq ($(UNAME), Darwin)
-$(NAME): libftprintf/libftprintf.a $(OBJS)
-	$(CC) $(OBJS) $(CFLAGS) -lmlx -framework OpenGL -framework AppKit ./libftprintf/libftprintf.a -o $(NAME)
+$(NAME): $(OBJS)
+	$(CC) $(OBJS) $(CFLAGS) $(LIBFT)libft.a -lmlx -framework OpenGL -framework AppKit ./libftprintf/libftprintf.a -o $(NAME)
 endif
 
 ifeq ($(UNAME), Linux)
-$(NAME): /libftprintf/libftprintf.a minilibx-linux/libmlx.a $(OBJS)
-	$(CC) $(OBJS) $(CFLAGS) minilibx-linux/libmlx.a -L/usr/include/X11/extensions -lX11 -lXext -lm -o $(NAME)
+$(NAME): minilibx-linux/libmlx.a $(OBJS)
+	$(CC) $(OBJS) $(CFLAGS) $(LIBFT)libft.a minilibx-linux/libmlx.a -L/usr/include/X11/extensions -lX11 -lXext -lm -o $(NAME)
 endif
 
-libftprintf/libftprintf.a:
-	@make -C libftprintf
-#mv libftprintf/libftprintf.a .
-	@echo "Making libftprintf..."
-
 clean:
-	@make -C libftprintf clean
-#rm libftprintf.a
+	@$(MAKE) -C $(LIBFT) clean
 	@rm -f $(OBJS)
 	@echo "cleaning..."
 
 fclean: clean
-	@make -C libftprintf fclean
+	@$(MAKE) -C $(LIBFT) fclean
 	@rm -f $(NAME)
 	@echo "fully cleaning..."
 
 re: fclean all
 	@echo "remaking files..."
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re libft
