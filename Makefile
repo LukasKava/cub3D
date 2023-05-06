@@ -3,14 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+         #
+#    By: mabbas <mabbas@students.42wolfsburg.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 12:35:38 by lkavalia          #+#    #+#              #
-#    Updated: 2023/05/05 15:46:01 by lkavalia         ###   ########.fr        #
+#    Updated: 2023/05/06 21:08:07 by mabbas           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3d 
+CC = gcc
+CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
 
 SRCS =	./SRC/main.c 					\
 		./SRC/parsing/map.c				\
@@ -33,47 +35,58 @@ SRCS =	./SRC/main.c 					\
 
 OBJS = $(SRCS:.c=.o)
 
-CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra -g
-
-all: $(NAME)
+LIBFT = ./libs/libft/
 
 UNAME := $(shell uname)
-%.o: %.c
-	$(CC) $(CFLAGS) -Imlx -I/opt/X11/include -c $< -o $@
-minilibx-linux/libmlx.a:
-	make -C minilibx-linux
-	cp MLX/libmlx.a
-	@echo "Making MLX..."
 
 ifeq ($(UNAME), Darwin)
-$(NAME): libftprintf/libftprintf.a $(OBJS)
-	$(CC) $(OBJS) $(CFLAGS) -lmlx -framework OpenGL -framework AppKit ./libftprintf/libftprintf.a -o $(NAME)
+	MLX = ./minilibx-mac
+else
+	MLX = ./minilibx-linux
 endif
 
-ifeq ($(UNAME), Linux)
-$(NAME): /libftprintf/libftprintf.a minilibx-linux/libmlx.a $(OBJS)
-	$(CC) $(OBJS) $(CFLAGS) minilibx-linux/libmlx.a -L/usr/include/X11/extensions -lX11 -lXext -lm -o $(NAME)
+ifeq ($(UNAME), Darwin)
+	LFLAGS = -L$(MLX) -lmlx -framework OpenGL -framework AppKit 
+else
+	LFLAGS = -L$(MLX) -lmlx -L/usr/include/X11/extensions -lX11 -lXext -lm
 endif
 
-libftprintf/libftprintf.a:
-	@make -C libftprintf
-#mv libftprintf/libftprintf.a .
-	@echo "Making libftprintf..."
+all: libft $(NAME)
+
+%.o: %.c
+	@echo "\033[0;35m.\033[0m\c"
+	@$(CC) $(CFLAGS) -Imlx -I/opt/X11/include -c $< -o $@
+
+minilibx-linux/libmlx.a:
+	@make -C minilibx-linux
+	@echo "Making MLX..."
+
+minilibx-mac/libmlx.a:
+	@make -C minilibx-mac
+	@echo "Making MLX..."
+
+
+libft:
+	@$(MAKE) -C $(LIBFT) 
+
+
+$(NAME): $(OBJS)
+	@$(CC) $(OBJS) $(CFLAGS) $(LIBFT)libft.a $(LFLAGS) -o $(NAME)
 
 clean:
-	@make -C libftprintf clean
-#rm libftprintf.a
+	@$(MAKE) -C $(LIBFT) clean
+	@$(MAKE) -C  $(MLX) clean
 	@rm -f $(OBJS)
-	@echo "cleaning..."
+	@echo "\nUninstalling..."
 
 fclean: clean
-	@make -C libftprintf fclean
+	@$(MAKE) -C $(LIBFT) fclean
 	@rm -f $(NAME)
-	@echo "fully cleaning..."
+	@echo "\nUninstalled"
 
 re: fclean all
-	@echo "remaking files..."
+	@echo "\nInstalling....."
+	@echo "\nInstalled"
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re libft update
