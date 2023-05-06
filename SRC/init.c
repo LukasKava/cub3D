@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 17:11:19 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/05 15:50:09 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/06 21:12:56 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	initialize_hive(t_hive *hive)
 	i = 0;
 	while (i < 8)
 	{
-		hive->r[i] = 0;
 		hive->p_c[i] = 0;
 		hive->p_m[i++] = 0;
 	}

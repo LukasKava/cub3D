@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mabbas <mabbas@students.42wolfsburg.de>    +#+  +:+       +#+         #
+#    By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 12:35:38 by lkavalia          #+#    #+#              #
-#    Updated: 2023/05/05 21:22:41 by mabbas           ###   ########.fr        #
+#    Updated: 2023/05/06 20:56:37 by lkavalia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,11 +26,11 @@ SRCS =	./SRC/main.c 					\
 		./SRC/free.c					\
 		./SRC/colors.c					\
 		./SRC/player.c 					\
-		./SRC/drawing2d_map.c 			\
 		./SRC/brezenham.c				\
 		./SRC/raycasting.c				\
 		./SRC/raycasting2.c				\
 		./SRC/raycasting_utils.c        \
+		./SRC/utils.c 					\
 		./SRC/draw3d.c
 
 OBJS = $(SRCS:.c=.o)
@@ -38,9 +38,8 @@ OBJS = $(SRCS:.c=.o)
 
 LIBFT = ./libs/libft/
 
-SUBM_STATE := $(shell find libs/libft -type f)
 
-all: update libft $(NAME)
+all:libft $(NAME)
 
 UNAME := $(shell uname)
 
@@ -67,9 +66,6 @@ $(NAME): minilibx-linux/libmlx.a $(OBJS)
 	@$(CC) $(OBJS) $(CFLAGS) $(LIBFT)libft.a minilibx-linux/libmlx.a -L/usr/include/X11/extensions -lX11 -lXext -lm -o $(NAME)
 endif
 
-update: .gitmodules
-	@git submodule update --init
-	
 clean:
 	@$(MAKE) -C $(LIBFT) clean
 	@rm -f $(OBJS)
@@ -84,4 +80,4 @@ re: fclean all
 	@echo "\nInstalling....."
 	@echo "\nInstalled"
 
-.PHONY: all clean fclean re libft update
+.PHONY: all clean fclean re libft

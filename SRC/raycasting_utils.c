@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 20:35:40 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/05 14:19:13 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/06 20:47:05 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,9 @@ void	negative_angle(t_hive *h, int angle)
 
 void	decide_quadrant(t_hive *h)
 {
-	int	angle;
+	double	angle;
 
-	angle = ((int)h->angle + h->p_offset) % 360;
+	angle = fmod(h->angle + h->p_offset, 360);
 	if (h->angle + h->p_offset >= 0)
 		positive_angle(h, angle);
 	else

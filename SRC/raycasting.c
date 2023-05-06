@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 12:32:54 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/05 14:19:13 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/06 20:12:22 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,19 @@ void	rest_horizontal(t_hive *h, int start_tile_pos_y, int step)
 	else
 		h->current_hor_y = start_tile_pos_y - ((TILE) * step);
 	if (h->quadrant == 3 || h->quadrant == 2)
-		h->current_hor_x = h->current_hor_x - h->horizontal_x_scaling;
+		h->current_hor_x -= h->horizontal_x_scaling;
 	else
-		h->current_hor_x = h->current_hor_x + h->horizontal_x_scaling;
+		h->current_hor_x += h->horizontal_x_scaling;
 }
 
 void	rest_vertical(t_hive *h, int start_tile_pos_x, int step)
 {
-	h->current_ver_x = start_tile_pos_x + (TILE) * step + (TILE);
 	h->current_ver_len = TILE / cos(h->real_angle * RADIAN);
+	h->current_ver_x = start_tile_pos_x + (TILE) * step + (TILE);
 	if (h->quadrant == 3 || h->quadrant == 4)
-		h->current_ver_y = h->current_ver_y + h->vertical_y_scaling;
+		h->current_ver_y += h->vertical_y_scaling;
 	else
-		h->current_ver_y = h->current_ver_y - h->vertical_y_scaling;
+		h->current_ver_y -= h->vertical_y_scaling;
 	if (h->quadrant == 3 || h->quadrant == 2)
 		h->current_ver_x = start_tile_pos_x - (TILE) * step;
 }
@@ -50,13 +50,13 @@ void	raycasting(t_hive *h, int start_tile_pos_x, int start_tile_pos_y)
 	first_vertical(h, start_tile_pos_x, start_tile_pos_y);
 	hor_hit = check_horizontal_wall(h);
 	ver_hit = check_vertical_wall(h);
-	while (hor_hit == 0 && fabs(remainder(h->angle + h->p_offset, 180)) != 90)
+	while (hor_hit == 0)
 	{
 		rest_horizontal(h, start_tile_pos_y, step++);
 		hor_hit = check_horizontal_wall(h);
 	}
 	step = 1;
-	while (ver_hit == 0 && fabs(remainder(h->angle + h->p_offset, 180)) != 0)
+	while (ver_hit == 0)
 	{
 		rest_vertical(h, start_tile_pos_x, step++);
 		ver_hit = check_vertical_wall(h);

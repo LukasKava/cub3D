@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 18:19:31 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/05 16:01:47 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/06 20:41:08 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,11 @@
  */
 void	ft_exiterr(int err)
 {
-	if (err == NOT_ENOUGH_ARGS)
+	if (err == TILE_SIZE)
+		ft_putstr_fd(RED "Tile size should be 32x32!\n" B, 2);
+	else if (err == SCREEN_SIZE)
+		ft_putstr_fd(RED "Screen size should be 720x1280!\n" B, 2);
+	else if (err == NOT_ENOUGH_ARGS)
 		ft_putstr_fd(RED "Not enough arguments!\n" B, 2);
 	else if (err == INVALID_ARGS)
 		ft_putstr_fd(RED "Invalid arguments!\n" B, 2);
@@ -140,6 +144,12 @@ void	check_basic_errors(t_main *main, int argc, char **argv)
 {
 	if (argc != 2)
 		ft_exiterr(NOT_ENOUGH_ARGS);
+	if (TILE != 32)
+		parsing_cleaning(main, NULL, TILE_SIZE);
+	if (S_WIDTH != 1280)
+		parsing_cleaning(main, NULL, SCREEN_SIZE);
+	if (S_HEIGHT != 720)
+		parsing_cleaning(main, NULL, SCREEN_SIZE);
 	check_file_extension(argv[1]);
 	open_the_file(main, argv);
 	check_file_config(main);

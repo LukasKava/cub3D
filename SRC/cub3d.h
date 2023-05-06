@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabbas <mabbas@students.42wolfsburg.de>    +#+  +:+       +#+        */
+/*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 18:00:09 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/05 18:54:03 by mabbas           ###   ########.fr       */
+/*   Updated: 2023/05/06 21:12:34 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ typedef struct s_hive
 	int			current_tile_pos_x;
 	int			current_tile_pos_y;
 	double		angle;
-	int			r[8];
 	int			p_c[8];
 	int			p_m[8];
 	int			p_offset;
@@ -168,31 +167,14 @@ void	draw_line(t_hive *h, int color);
 
 //	============>	drawing	==========================
 
-//raycasting_utils.c
-void	first_horizontal(t_hive *h, int start_tile_pos_x, int start_tile_pos_y);
-void	first_vertical(t_hive *h, int start_tile_pos_x, int start_tile_pos_y);
-void	decide_quadrant(t_hive *h);
-
-//raycasting.c
-void	raycasting(t_hive *h, int start_tile_pos_x, int start_tile_pos_y);
-void	draw_2d_rays(t_hive *h);
-
-//raycasting2.c
-int		check_horizontal_wall(t_hive *h);
-int		check_vertical_wall(t_hive *h);
-void	count_horizontal_scaling(t_hive *h);
-void	count_vertical_scaling(t_hive *h);
-double	calculate_dist_draw(t_hive *h, int hor_hit, int ver_hit);
-
-void	player_rotation(t_hive *h, char indentifier, int offset);
+void	player_rotation(t_hive *h, int offset);
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 
 void	draw_flat_map(t_main *main, t_data *data);
-void	draw_player(t_hive *h, t_data *img);
+void	draw_player(t_hive *h);
 
 void	draw_3d(t_hive *hive, int a, double i);
-void	put_textures(t_hive *hive);
 
 //colors.c
 void	take_care_of_color(char *buffer, t_main *m, char id);
@@ -209,7 +191,29 @@ void	initialize_mlx(t_data *img, t_vars *vars);
 //player.c
 void	check_player_direction(t_main *main);
 
+//raycasting_utils.c
+void	first_horizontal(t_hive *h, int start_tile_pos_x, int start_tile_pos_y);
+void	first_vertical(t_hive *h, int start_tile_pos_x, int start_tile_pos_y);
+void	decide_quadrant(t_hive *h);
+
+//raycasting.c
+void	raycasting(t_hive *h, int start_tile_pos_x, int start_tile_pos_y);
+void	draw_2d_rays(t_hive *h);
+
+//raycasting2.c
+int		check_horizontal_wall(t_hive *h);
+int		check_vertical_wall(t_hive *h);
+void	count_horizontal_scaling(t_hive *h);
+void	count_vertical_scaling(t_hive *h);
+double	calculate_dist_draw(t_hive *h, int hor_hit, int ver_hit);
+
+//utils.c
+void	player_center_rotation(t_hive *h, double tmp_x, double c, double s);
+void	load_assets(t_hive *h);
+
 //ERROR Codes
+# define TILE_SIZE		 		-2
+# define SCREEN_SIZE	 		-1
 # define NOT_ENOUGH_ARGS 		1
 # define INVALID_ARGS			2
 # define WRONG_FILE_EXTENSION 	3

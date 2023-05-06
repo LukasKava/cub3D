@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 12:30:40 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/05 14:39:42 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/06 21:09:42 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,6 @@ void	check_player_direction(t_main *main)
 
 void	initialize_rectangle(t_hive *h)
 {
-	h->r[0] = h->p_c_x - (5);
-	h->r[1] = h->p_c_y - (5);
-	h->r[2] = h->p_c_x + (5);
-	h->r[3] = h->p_c_y - (5);
-	h->r[4] = h->p_c_x - (5);
-	h->r[5] = h->p_c_y + (5);
-	h->r[6] = h->p_c_x + (5);
-	h->r[7] = h->p_c_y + (5);
 	h->p_c[0] = h->p_c_x - h->move;
 	h->p_c[1] = h->p_c_y - h->move;
 	h->p_c[2] = h->p_c_x + h->move;
@@ -66,13 +58,10 @@ void	initialize_rectangle(t_hive *h)
 	h->p_c[7] = h->p_c_y + h->move;
 }
 
-void	draw_p_dir_points(t_hive *h, int i, int x)
+void	draw_p_dir_points(t_hive *h)
 {
 	initialize_rectangle(h);
-	player_rotation(h, 'r', h->p_offset);
-	player_rotation(h, 'c', h->p_offset);
-	while (i < 4)
-		h->line[i++] = h->r[x++];
+	player_rotation(h,  h->p_offset);
 	h->p_m[0] = (h->p_c[0] + h->p_c[2]) / 2;
 	h->p_m[1] = (h->p_c[1] + h->p_c[3]) / 2;
 	h->p_m[2] = (h->p_c[2] + h->p_c[6]) / 2;
@@ -95,9 +84,8 @@ void	choose_dir(t_hive *h)
 		h->p_offset = 270;
 }
 
-void	draw_player(t_hive *h, t_data *img)
+void	draw_player(t_hive *h)
 {
 	choose_dir(h);
-	draw_p_dir_points(h, 0, 0);
-	my_mlx_pixel_put(img, h->p_c_x, h->p_c_y, 3139839);
+	draw_p_dir_points(h);
 }
