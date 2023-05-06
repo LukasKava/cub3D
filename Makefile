@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+         #
+#    By: mabbas <mabbas@students.42wolfsburg.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 12:35:38 by lkavalia          #+#    #+#              #
-#    Updated: 2023/05/06 21:23:23 by lkavalia         ###   ########.fr        #
+#    Updated: 2023/05/06 21:49:32 by mabbas           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,7 +76,6 @@ $(NAME): $(OBJS)
 
 clean:
 	@$(MAKE) -C $(LIBFT) clean
-	@$(MAKE) -C  $(MLX) clean
 	@rm -f $(OBJS)
 	@echo "\nUninstalling..."
 
