@@ -6,11 +6,26 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 11:28:17 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/03/24 14:25:17 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/06 22:50:22 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	parsing_cleaning(t_main *main, char *arr, int err)
+{
+	if (arr != NULL)
+		free(arr);
+	clear_the_main_struct(main);
+	ft_exiterr(err);
+}
+
+int	close_game(t_hive *hive)
+{
+	mlx_destroy_window(hive->vars->mlx, hive->vars->win);
+	clear_the_main_struct(hive->main);
+	exit(0);
+}
 
 void	clear_the_main_struct(t_main *main)
 {

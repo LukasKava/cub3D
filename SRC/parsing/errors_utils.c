@@ -6,19 +6,12 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 18:56:13 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/04/16 17:21:40 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/06 23:16:42 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-/**
- * @brief 
- * 
- * @param buffer 
- * @return true 	 -	when
- * @return false 
- */
 bool	map_fragment_found(char *buffer)
 {
 	int	i;
@@ -94,12 +87,4 @@ void	find_trash(t_main *main, char *s)
 		close(main->file_fd);
 		ft_exiterr(CUB_CONTAINS_TRASH);
 	}
-}
-
-void	parsing_cleaning(t_main *main, char *arr, int err)
-{
-	if (arr != NULL)
-		free(arr);
-	clear_the_main_struct(main);
-	ft_exiterr(err);
 }

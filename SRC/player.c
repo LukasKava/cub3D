@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 12:30:40 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/06 21:09:42 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/06 22:27:46 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,31 @@ void	initialize_rectangle(t_hive *h)
 	h->p_c[7] = h->p_c_y + h->move;
 }
 
-void	draw_p_dir_points(t_hive *h)
+void	player_rotation(t_hive *h, int offset)
+{
+	double	s;
+	double	c;
+	double	tmp_x;
+
+	tmp_x = 0;
+	if (fmod(h->angle + offset, 90) == 0 || fmod(h->angle + offset, 180) == 0)
+	{
+		s = (int)sin((h->angle + offset) * RADIAN);
+		c = (int)cos((h->angle + offset) * RADIAN);
+	}
+	else
+	{
+		s = sin((h->angle + offset) * RADIAN);
+		c = cos((h->angle + offset) * RADIAN);
+	}
+	tmp_x = h->p_c[0];
+	player_center_rotation(h, tmp_x, c, s);
+}
+
+void	draw_player(t_hive *h)
 {
 	initialize_rectangle(h);
-	player_rotation(h,  h->p_offset);
+	player_rotation(h, h->p_offset);
 	h->p_m[0] = (h->p_c[0] + h->p_c[2]) / 2;
 	h->p_m[1] = (h->p_c[1] + h->p_c[3]) / 2;
 	h->p_m[2] = (h->p_c[2] + h->p_c[6]) / 2;
@@ -70,22 +91,4 @@ void	draw_p_dir_points(t_hive *h)
 	h->p_m[7] = (h->p_c[5] + h->p_c[7]) / 2;
 	h->p_m[4] = (h->p_c[0] + h->p_c[4]) / 2;
 	h->p_m[5] = (h->p_c[1] + h->p_c[5]) / 2;
-}
-
-void	choose_dir(t_hive *h)
-{
-	if (h->main->p_dir == 'N')
-		h->p_offset = 0;
-	else if (h->main->p_dir == 'E')
-		h->p_offset = 90;
-	else if (h->main->p_dir == 'S')
-		h->p_offset = 180;
-	else if (h->main->p_dir == 'W')
-		h->p_offset = 270;
-}
-
-void	draw_player(t_hive *h)
-{
-	choose_dir(h);
-	draw_p_dir_points(h);
 }

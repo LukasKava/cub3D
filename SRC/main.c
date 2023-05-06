@@ -3,33 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabbas <mabbas@students.42wolfsburg.de>    +#+  +:+       +#+        */
+/*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 17:30:05 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/06 21:48:25 by mabbas           ###   ########.fr       */
+/*   Updated: 2023/05/06 22:45:35 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
-{
-	char	*dst;
-
-	if (x < S_WIDTH && y < S_HEIGHT && x > 0 && y > 0)
-	{
-		dst = data->addr + (y * data->line_length + x * \
-												(data->bits_per_pixel / 8));
-		*(unsigned int *)dst = color;
-	}
-}
-
-int	close_game(t_hive *hive)
-{
-	mlx_destroy_window(hive->vars->mlx, hive->vars->win);
-	clear_the_main_struct(hive->main);
-	exit(0);
-}
 
 void	move_player(t_hive *h, int indentifier)
 {
@@ -68,27 +49,6 @@ int	key_hook(int keycode, t_hive *hive)
 	return (0);
 }
 
-void	player_rotation(t_hive *h, int offset)
-{
-	double	s;
-	double	c;
-	double	tmp_x;
-
-	tmp_x = 0;
-	if (fmod(h->angle + offset, 90) == 0 || fmod(h->angle + offset, 180) == 0)
-	{
-		s = (int)sin((h->angle + offset) * RADIAN);
-		c = (int)cos((h->angle + offset) * RADIAN);
-	}
-	else
-	{
-		s = sin((h->angle + offset) * RADIAN);
-		c = cos((h->angle + offset) * RADIAN);
-	}
-	tmp_x = h->p_c[0];
-	player_center_rotation(h, tmp_x, c, s);
-}
-
 int	render(t_hive *h)
 {
 	h->data->img = mlx_new_image(h->vars->mlx, S_WIDTH, S_HEIGHT);
@@ -109,7 +69,7 @@ int	main(int argc, char **argv)
 	initialize_hive(hive);
 	initialize_main(hive->main);
 	check_basic_errors(hive->main, argc, argv);
-	parsing(hive->main, argv);
+	parsing(hive->main, hive, argv);
 	initialize_mlx(hive->data, hive->vars);
 	load_assets(hive);
 	hive->p_c_x = TILE + (hive->main->p_x * (TILE)) + ((TILE) / 2);

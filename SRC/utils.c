@@ -6,11 +6,23 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 20:54:28 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/06 21:09:58 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/06 22:40:11 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+{
+	char	*dst;
+
+	if (x < S_WIDTH && y < S_HEIGHT && x > 0 && y > 0)
+	{
+		dst = data->addr + (y * data->line_length + x * \
+												(data->bits_per_pixel / 8));
+		*(unsigned int *)dst = color;
+	}
+}
 
 void	player_center_rotation(t_hive *h, double tmp_x, double c, double s)
 {

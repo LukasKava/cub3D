@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 18:00:09 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/06 21:19:55 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/06 23:15:58 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # include <stdlib.h>
 # include <math.h>
 # include "../libs/libft/libft.h"
-# include "../minilibx-linux/mlx.h"
-# include "../minilibx-linux/mlx_int.h"
+//# include "../minilibx-linux/mlx.h"
+# include "../minilibx-mac/mlx.h"
 
 typedef struct s_vars {
 	void	*mlx;
@@ -139,11 +139,13 @@ bool	map_fragment_found(char *buffer);
 bool	match_component_name(char *name);
 bool	component_found(char *str);
 void	find_trash(t_main *main, char *s);
-void	parsing_cleaning(t_main *main, char *arr, int err);
 
 //errors.c
 void	ft_exiterr(int err);
 void	check_basic_errors(t_main *main, int argc, char **argv);
+
+//errors.c
+void	check_file_extension(char *filename);
 
 //map.c
 void	save_map(t_main *main, char **argv, int len);
@@ -152,7 +154,7 @@ int		map_skip_space(int i, char *b, char id);
 int		check_map_fragments(t_main *main, char *b, int *c);
 
 //parsing.c
-void	parsing(t_main *main, char **argv);
+void	parsing(t_main *main, t_hive *hive, char **argv);
 
 //texure_handling.c
 void	load_texure(t_texture *t, t_hive *h, char *t_path);
@@ -167,11 +169,6 @@ void	draw_line(t_hive *h, int color);
 
 //	============>	drawing	==========================
 
-void	player_rotation(t_hive *h, int offset);
-
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
-
-void	draw_flat_map(t_main *main, t_data *data);
 void	draw_player(t_hive *h);
 
 void	draw_3d(t_hive *hive, int a, double i);
@@ -181,6 +178,8 @@ void	take_care_of_color(char *buffer, t_main *m, char id);
 void	dda_line(t_hive *hive);
 
 //free.c
+void	parsing_cleaning(t_main *main, char *arr, int err);
+int		close_game(t_hive *hive);
 void	clear_the_main_struct(t_main *main);
 
 //init.c
@@ -189,6 +188,7 @@ void	initialize_hive(t_hive *hive);
 void	initialize_mlx(t_data *img, t_vars *vars);
 
 //player.c
+void	player_rotation(t_hive *h, int offset);
 void	check_player_direction(t_main *main);
 
 //raycasting_utils.c
@@ -208,10 +208,14 @@ void	count_vertical_scaling(t_hive *h);
 double	calculate_dist_draw(t_hive *h, int hor_hit, int ver_hit);
 
 //utils.c
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void	player_center_rotation(t_hive *h, double tmp_x, double c, double s);
 void	load_assets(t_hive *h);
 
 //ERROR Codes
+# define DEFAULT_CEILING_COLOR	-4
+# define DEFAULT_FLOOR_COLOR	-3
 # define TILE_SIZE		 		-2
 # define SCREEN_SIZE	 		-1
 # define NOT_ENOUGH_ARGS 		1
@@ -268,10 +272,10 @@ void	load_assets(t_hive *h);
 # define TILE	32
 
 //Textures and colors
-# define D_NO "/Users/lkavalia/school/Cub3d/assets/textures/default_north.xpm"
-# define D_EA "/Users/lkavalia/school/Cub3d/assets/textures/default_east.xpm"
-# define D_SO "/Users/lkavalia/school/Cub3d/assets/textures/default_south.xpm"
-# define D_WE "/Users/lkavalia/school/Cub3d/assets/textures/default_west.xpm"
+# define D_NO "./assets/textures/default_north.xpm"
+# define D_EA "./assets/textures/default_east.xpm"
+# define D_SO "./assets/textures/default_south.xpm"
+# define D_WE "./assets/textures/default_west.xpm"
 # define D_F 0xDC6400
 # define D_C 0xE11E00
 

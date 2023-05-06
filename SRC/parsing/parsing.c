@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 18:11:11 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/06 20:34:07 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/06 22:19:06 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,20 +127,21 @@ static void	check_for_open_walls(t_main *main)
  * 				3. @check_player_direction: it checks for the players location.
  * 				4. @check_for_open_walls: it checks for the open walls.
  */
-void	parsing(t_main *main, char **argv)
+void	parsing(t_main *main, t_hive *h, char **argv)
 {
-	printf("checking fd: %d\n", main->file_fd);
 	find_elements(main);
 	open_the_file(main, argv);
 	find_map(main, argv);
 	check_player_direction(main);
 	main->p_x = main->p_pos_x;
 	main->p_y = main->p_pos_y;
-	printf("check players direction:	[%c]\n", main->p_dir);
-	printf("check players position x:	[%d]\n", main->p_pos_x);
-	printf("check players position y:	[%d]\n", main->p_pos_y);
-	printf("check_starting pos of player x: [%d]\n", main->p_x);
-	printf("check starting pos of player y: [%d]\n", main->p_y);
-	printf("height of the map:			[%d]\n", main->height);
+	if (main->p_dir == 'N')
+		h->p_offset = 0;
+	else if (h->main->p_dir == 'E')
+		h->p_offset = 90;
+	else if (h->main->p_dir == 'S')
+		h->p_offset = 180;
+	else if (h->main->p_dir == 'W')
+		h->p_offset = 270;
 	check_for_open_walls(main);
 }

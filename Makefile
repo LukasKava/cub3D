@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mabbas <mabbas@students.42wolfsburg.de>    +#+  +:+       +#+         #
+#    By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 12:35:38 by lkavalia          #+#    #+#              #
-#    Updated: 2023/05/06 21:49:32 by mabbas           ###   ########.fr        #
+#    Updated: 2023/05/06 23:14:01 by lkavalia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
 SRCS =	./SRC/main.c 					\
 		./SRC/parsing/map.c				\
 		./SRC/parsing/errors.c 			\
+		./SRC/parsing/errors1.c 			\
 		./SRC/parsing/parsing.c			\
 		./SRC/parsing/checking_map.c 	\
 		./SRC/parsing/errors_utils.c	\

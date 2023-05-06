@@ -6,21 +6,19 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 18:19:31 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/06 20:41:08 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/06 23:14:12 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-//TODO: ENUMS for readability
-/**
- * FUNCTION: (ft_exiterr) is responsible for matching the err number with
- * 				its error and outputting the error message into the terminal
- * 				using ft_putstr_fd.
- */
-void	ft_exiterr(int err)
+int	first_error_messages(int err)
 {
-	if (err == TILE_SIZE)
+	if (err == DEFAULT_CEILING_COLOR)
+		ft_putstr_fd(RED "Default ceiling color has to be: 0xE11E00!\n" B, 2);
+	else if (err == DEFAULT_FLOOR_COLOR)
+		ft_putstr_fd(RED "Default floor color has to be: 0xDC6400!\n" B, 2);
+	else if (err == TILE_SIZE)
 		ft_putstr_fd(RED "Tile size should be 32x32!\n" B, 2);
 	else if (err == SCREEN_SIZE)
 		ft_putstr_fd(RED "Screen size should be 720x1280!\n" B, 2);
@@ -38,6 +36,20 @@ void	ft_exiterr(int err)
 		ft_putstr_fd(RED ".cub file contains trash characters!\n" B, 2);
 	else if (err == MISSING_ELEMENT_PATH)
 		ft_putstr_fd(RED "Texure path is not specified!\n" B, 2);
+	if (err >= -4 && err <= 7)
+		return (1);
+	return (0);
+}
+
+/**
+ * FUNCTION: (ft_exiterr) is responsible for matching the err number with
+ * 				its error and outputting the error message into the terminal
+ * 				using ft_putstr_fd.
+ */
+void	ft_exiterr(int err)
+{
+	if (first_error_messages(err) == 1)
+		exit (err);
 	else if (err == FOUND_ELEMENT_TRASH)
 		ft_putstr_fd(RED "Please check the texure field!\n" B, 2);
 	else if (err == INCORECT_COLOR_VAL)
@@ -59,27 +71,6 @@ void	ft_exiterr(int err)
 	else if (err == XPM_HAS_FAILED_TO_OPEN)
 		ft_putstr_fd(RED "XPM has failed to be opened!\n" B, 2);
 	exit (err);
-}
-
-//Checks if the file extension is .cub
-/**
- * FUNCTION: (check_file_extension) checks that the file
- * 				extension would be .cub
- */
-static void	check_file_extension(char *filename)
-{
-	int		i;
-	char	*file_ex;
-
-	i = ft_strlen(filename);
-	file_ex = ft_substr(filename, i - 4, 4);
-	printf("[1] Check the extension: %s\n", file_ex);
-	if (ft_strncmp(file_ex, ".cub", ft_strlen(".cub")) != 0)
-	{
-		free(file_ex);
-		ft_exiterr(WRONG_FILE_EXTENSION);
-	}
-	free(file_ex);
 }
 
 /**
@@ -116,8 +107,6 @@ static void	check_file_config(t_main *main)
 		check_for_tabs(main, buffer);
 		if (map_found == false)
 			map_found = map_fragment_found(buffer);
-		printf("check1: %d ", map_found);
-		printf("buffer: %s", buffer);
 		if (component_found(buffer) == true && map_found == true)
 		{
 			free(buffer);
@@ -150,6 +139,10 @@ void	check_basic_errors(t_main *main, int argc, char **argv)
 		parsing_cleaning(main, NULL, SCREEN_SIZE);
 	if (S_HEIGHT != 720)
 		parsing_cleaning(main, NULL, SCREEN_SIZE);
+	if (D_F != 0xDC6400)
+		parsing_cleaning(main, NULL, DEFAULT_FLOOR_COLOR);
+	if (D_C != 0xE11E00)
+		parsing_cleaning(main, NULL, DEFAULT_CEILING_COLOR);
 	check_file_extension(argv[1]);
 	open_the_file(main, argv);
 	check_file_config(main);
