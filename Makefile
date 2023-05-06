@@ -6,7 +6,7 @@
 #    By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 12:35:38 by lkavalia          #+#    #+#              #
-#    Updated: 2023/05/06 20:56:37 by lkavalia         ###   ########.fr        #
+#    Updated: 2023/05/06 21:23:23 by lkavalia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,10 +38,21 @@ OBJS = $(SRCS:.c=.o)
 
 LIBFT = ./libs/libft/
 
-
-all:libft $(NAME)
-
 UNAME := $(shell uname)
+
+ifeq ($(UNAME), Darwin)
+	MLX = ./minilibx-mac
+else
+	MLX = ./minilibx-linux
+endif
+
+ifeq ($(UNAME), Darwin)
+	LFLAGS = -L$(MLX) -lmlx -framework OpenGL -framework AppKit 
+else
+	LFLAGS = -L$(MLX) -lmlx -L/usr/include/X11/extensions -lX11 -lXext -lm
+endif
+
+all: libft $(NAME)
 
 %.o: %.c
 	@echo "\033[0;35m.\033[0m\c"
@@ -49,25 +60,23 @@ UNAME := $(shell uname)
 
 minilibx-linux/libmlx.a:
 	@make -C minilibx-linux
-	@cp MLX/libmlx.a
 	@echo "Making MLX..."
+
+minilibx-mac/libmlx.a:
+	@make -C minilibx-mac
+	@echo "Making MLX..."
+
 
 libft:
 	@$(MAKE) -C $(LIBFT) 
 
 
-ifeq ($(UNAME), Darwin)
 $(NAME): $(OBJS)
-	@$(CC) $(OBJS) $(CFLAGS) $(LIBFT)libft.a -lmlx -framework OpenGL -framework AppKit -o $(NAME)
-endif
-
-ifeq ($(UNAME), Linux)
-$(NAME): minilibx-linux/libmlx.a $(OBJS)
-	@$(CC) $(OBJS) $(CFLAGS) $(LIBFT)libft.a minilibx-linux/libmlx.a -L/usr/include/X11/extensions -lX11 -lXext -lm -o $(NAME)
-endif
+	@$(CC) $(OBJS) $(CFLAGS) $(LIBFT)libft.a $(LFLAGS) -o $(NAME)
 
 clean:
 	@$(MAKE) -C $(LIBFT) clean
+	@$(MAKE) -C  $(MLX) clean
 	@rm -f $(OBJS)
 	@echo "\nUninstalling..."
 
