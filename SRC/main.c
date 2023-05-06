@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: mabbas <mabbas@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 17:30:05 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/05 16:00:38 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/06 20:40:31 by mabbas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,11 @@ void	load_assets(t_hive *h)
 		h->main->roof = D_C;
 }
 
+void play_music(void)
+{
+	system ("afplay -v 100 -t 10 ./assets/intro.wav");
+}
+
 int	main(int argc, char **argv)
 {
 	t_hive	*hive;
@@ -181,6 +186,7 @@ int	main(int argc, char **argv)
 	parsing(hive->main, argv);
 	initialize_mlx(hive->data, hive->vars);
 	load_assets(hive);
+	play_music();
 	hive->p_c_x = TILE + (hive->main->p_x * (TILE)) + ((TILE) / 2);
 	hive->p_c_y = TILE + (hive->main->p_y * (TILE)) + ((TILE) / 2);
 	mlx_hook(hive->vars->win, 2, (1L) << 0, &key_hook, hive);
