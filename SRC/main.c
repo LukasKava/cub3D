@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabbas <mabbas@students.42wolfsburg.de>    +#+  +:+       +#+        */
+/*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 17:30:05 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/06 20:40:31 by mabbas           ###   ########.fr       */
+/*   Updated: 2023/05/06 21:20:10 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,67 +68,22 @@ int	key_hook(int keycode, t_hive *hive)
 	return (0);
 }
 
-void	player_center_rotation(t_hive *h, int tmp_x, double c, double s)
-{
-	tmp_x = h->p_c[0];
-	h->p_c[0] = ((h->p_c[0] - h->p_c_x) * c - \
-					(h->p_c[1] - h->p_c_y) * s) + h->p_c_x;
-	h->p_c[1] = ((tmp_x - h->p_c_x) * s + \
-					(h->p_c[1] - h->p_c_y) * c) + h->p_c_y;
-	tmp_x = h->p_c[2];
-	h->p_c[2] = ((h->p_c[2] - h->p_c_x) * c - \
-					(h->p_c[3] - h->p_c_y) * s) + h->p_c_x;
-	h->p_c[3] = ((tmp_x - h->p_c_x) * s + \
-					(h->p_c[3] - h->p_c_y) * c) + h->p_c_y;
-	tmp_x = h->p_c[4];
-	h->p_c[4] = ((h->p_c[4] - h->p_c_x) * c - \
-					(h->p_c[5] - h->p_c_y) * s) + h->p_c_x;
-	h->p_c[5] = ((tmp_x - h->p_c_x) * s + \
-					(h->p_c[5] - h->p_c_y) * c) + h->p_c_y;
-	tmp_x = h->p_c[6];
-	h->p_c[6] = ((h->p_c[6] - h->p_c_x) * c - \
-					(h->p_c[7] - h->p_c_y) * s) + h->p_c_x;
-	h->p_c[7] = ((tmp_x - h->p_c_x) * s + \
-					(h->p_c[7] - h->p_c_y) * c) + h->p_c_y;
-}
-
-void	rectangle_rotation(t_hive *h, int tmp_x, double c, double s)
-{
-	tmp_x = h->r[0];
-	h->r[0] = ((h->r[0] - h->p_c_x) * c - \
-				(h->r[1] - h->p_c_y) * s) + h->p_c_x;
-	h->r[1] = ((tmp_x - h->p_c_x) * s + \
-				(h->r[1] - h->p_c_y) * c) + h->p_c_y;
-	tmp_x = h->r[2];
-	h->r[2] = ((h->r[2] - h->p_c_x) * c - \
-				(h->r[3] - h->p_c_y) * s) + h->p_c_x;
-	h->r[3] = ((tmp_x - h->p_c_x) * s + \
-				(h->r[3] - h->p_c_y) * c) + h->p_c_y;
-	tmp_x = h->r[4];
-	h->r[4] = ((h->r[4] - h->p_c_x) * c - \
-				(h->r[5] - h->p_c_y) * s) + h->p_c_x;
-	h->r[5] = ((tmp_x - h->p_c_x) * s + \
-				(h->r[5] - h->p_c_y) * c) + h->p_c_y;
-	tmp_x = h->r[6];
-	h->r[6] = ((h->r[6] - h->p_c_x) * c - \
-				(h->r[7] - h->p_c_y) * s) + h->p_c_x;
-	h->r[7] = ((tmp_x - h->p_c_x) * s + \
-				(h->r[7] - h->p_c_y) * c) + h->p_c_y;
-}
-
-void	player_rotation(t_hive *h, char indentifier, int offset)
+void	player_rotation(t_hive *h, int offset)
 {
 	double	s;
-	double	c;	
-	int		tmp_x;
+	double	c;
+	double	tmp_x;
 
 	tmp_x = 0;
-	s = sin((h->angle + offset) * RADIAN);
-	c = cos((h->angle + offset) * RADIAN);
-	if (indentifier == 'r')
+	if (fmod(h->angle + offset, 90) == 0 || fmod(h->angle + offset, 180) == 0)
 	{
-		rectangle_rotation(h, tmp_x, c, s);
-		return ;
+		s = (int)sin((h->angle + offset) * RADIAN);
+		c = (int)cos((h->angle + offset) * RADIAN);
+	}
+	else
+	{
+		s = sin((h->angle + offset) * RADIAN);
+		c = cos((h->angle + offset) * RADIAN);
 	}
 	tmp_x = h->p_c[0];
 	player_center_rotation(h, tmp_x, c, s);
@@ -139,40 +94,11 @@ int	render(t_hive *h)
 	h->data->img = mlx_new_image(h->vars->mlx, S_WIDTH, S_HEIGHT);
 	h->data->addr = mlx_get_data_addr(h->data->img, &h->data->bits_per_pixel, \
 	&h->data->line_length, &h->data->endian);
+	draw_player(h);
 	draw_2d_rays(h);
-	draw_player(h, h->data);
 	mlx_put_image_to_window(h->vars->mlx, h->vars->win, h->data->img, 0, 0);
 	mlx_destroy_image(h->vars->mlx, h->data->img);
 	return (0);
-}
-
-void	load_assets(t_hive *h)
-{
-	if (h->main->north_t != NULL)
-		load_texure(h->wall_tex->texture_north, h, h->main->north_t);
-	else
-		load_texure(h->wall_tex->texture_north, h, D_NO);
-	if (h->main->south_t != NULL)
-		load_texure(h->wall_tex->texture_south, h, h->main->south_t);
-	else
-		load_texure(h->wall_tex->texture_south, h, D_SO);
-	if (h->main->east_t != NULL)
-		load_texure(h->wall_tex->texture_east, h, h->main->east_t);
-	else
-		load_texure(h->wall_tex->texture_east, h, D_EA);
-	if (h->main->west_t != NULL)
-		load_texure(h->wall_tex->texture_west, h, h->main->west_t);
-	else
-		load_texure(h->wall_tex->texture_west, h, D_WE);
-	if (h->main->ground == -1)
-		h->main->ground = D_F;
-	if (h->main->roof == -1)
-		h->main->roof = D_C;
-}
-
-void play_music(void)
-{
-	system ("afplay -v 100 -t 10 ./assets/intro.wav");
 }
 
 int	main(int argc, char **argv)

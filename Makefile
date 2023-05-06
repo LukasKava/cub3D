@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mabbas <mabbas@students.42wolfsburg.de>    +#+  +:+       +#+         #
+#    By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 12:35:38 by lkavalia          #+#    #+#              #
-#    Updated: 2023/05/06 21:08:07 by mabbas           ###   ########.fr        #
+#    Updated: 2023/05/06 21:23:23 by lkavalia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,11 +26,11 @@ SRCS =	./SRC/main.c 					\
 		./SRC/free.c					\
 		./SRC/colors.c					\
 		./SRC/player.c 					\
-		./SRC/drawing2d_map.c 			\
 		./SRC/brezenham.c				\
 		./SRC/raycasting.c				\
 		./SRC/raycasting2.c				\
 		./SRC/raycasting_utils.c        \
+		./SRC/utils.c 					\
 		./SRC/draw3d.c
 
 OBJS = $(SRCS:.c=.o)
@@ -89,4 +89,4 @@ re: fclean all
 	@echo "\nInstalling....."
 	@echo "\nInstalled"
 
-.PHONY: all clean fclean re libft update
+.PHONY: all clean fclean re libft
