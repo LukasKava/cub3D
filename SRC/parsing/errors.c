@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 18:19:31 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/07 16:48:09 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/07 17:47:45 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	ft_exiterr(int err)
  * 				if it finds one it outputs and error because subject
  * 				pdf specifies that only spaces should be valid.
  */
-static void	check_for_tabs(t_main *main, char *buffer)
+static void	check_for_tabs(t_hive *h, char *buffer)
 {
 	int	i;
 
@@ -88,7 +88,7 @@ static void	check_for_tabs(t_main *main, char *buffer)
 	while (buffer[i] != '\0' && buffer[i] != '\t')
 		i++;
 	if (buffer[i] != '\0' && buffer[i] == '\t')
-		parsing_cleaning(main, buffer, TAB_IN_MAP_FOUND);
+		parsing_cleaning(h, buffer, TAB_IN_MAP_FOUND);
 }
 
 /**
@@ -97,7 +97,7 @@ static void	check_for_tabs(t_main *main, char *buffer)
  * 				ceiling ground color and the texures for each wall.
  * 				Also, checks for the tab using (check_for_tabs) function.
  */
-static void	check_file_config(t_main *main)
+static void	check_file_config(t_hive *h, t_main *main)
 {
 	bool	map_found;
 	char	*buffer;
@@ -106,16 +106,16 @@ static void	check_file_config(t_main *main)
 	buffer = get_next_line(main->file_fd);
 	while (buffer != NULL)
 	{
-		check_for_tabs(main, buffer);
+		check_for_tabs(h, buffer);
 		if (map_found == false)
 			map_found = map_fragment_found(buffer);
 		if (component_found(buffer) == true && map_found == true)
 		{
 			free(buffer);
 			close(main->file_fd);
-			ft_exiterr(INCORECT_FILE_CONFIG);
+			parsing_cleaning(h, NULL, INCORECT_FILE_CONFIG);
 		}
-		find_trash(main, buffer);
+		find_trash(h, main, buffer);
 		free(buffer);
 		buffer = get_next_line(main->file_fd);
 	}
@@ -131,23 +131,23 @@ static void	check_file_config(t_main *main)
  * 			about the map would be before the map itself. it checks that there would
  * 			not be anything that is not supposed to be there according to pdf.
  */
-void	check_basic_errors(t_main *main, int argc, char **argv)
+void	check_basic_errors(t_hive *h, int argc, char **argv)
 {
 	if (argc != 2)
 		ft_exiterr(NOT_ENOUGH_ARGS);
 	if (TILE != 32)
-		parsing_cleaning(main, NULL, TILE_SIZE);
+		parsing_cleaning(h, NULL, TILE_SIZE);
 	if (S_WIDTH != 1280)
-		parsing_cleaning(main, NULL, SCREEN_SIZE);
+		parsing_cleaning(h, NULL, SCREEN_SIZE);
 	if (S_HEIGHT != 720)
-		parsing_cleaning(main, NULL, SCREEN_SIZE);
+		parsing_cleaning(h, NULL, SCREEN_SIZE);
 	if (D_F != 0xDC6400)
-		parsing_cleaning(main, NULL, DEFAULT_FLOOR_COLOR);
+		parsing_cleaning(h, NULL, DEFAULT_FLOOR_COLOR);
 	if (D_C != 0xE11E00)
-		parsing_cleaning(main, NULL, DEFAULT_CEILING_COLOR);
+		parsing_cleaning(h, NULL, DEFAULT_CEILING_COLOR);
 	check_file_extension(argv[1]);
-	open_the_file(main, argv);
-	check_file_config(main);
-	close(main->file_fd);
-	open_the_file(main, argv);
+	open_the_file(h->main, argv);
+	check_file_config(h, h->main);
+	//close(main->file_fd);
+	//open_the_file(main, argv);
 }

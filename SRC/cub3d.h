@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 18:00:09 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/08 00:30:43 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/07 17:51:54 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,17 +132,17 @@ typedef struct s_hive
 int		check_right(t_main *main, int x, int y, int x_r);
 int		check_middle(t_main *main, int x, int y);
 int		check_left(t_main *main, int x, int y, int x_l);
-void	check_spaces(t_main *main, int x, int y);
+void	check_spaces(t_hive *h, t_main *main, int x, int y);
 
 //errors_utils.c
 bool	map_fragment_found(char *buffer);
 bool	match_component_name(char *name);
 bool	component_found(char *str);
-void	find_trash(t_main *main, char *s);
+void	find_trash(t_hive *h, t_main *main, char *s);
 
 //errors.c
 void	ft_exiterr(int err);
-void	check_basic_errors(t_main *main, int argc, char **argv);
+void	check_basic_errors(t_hive *h, int argc, char **argv);
 
 //errors.c
 void	check_file_extension(char *filename);
@@ -151,7 +151,7 @@ void	check_file_extension(char *filename);
 void	save_map(t_main *main, char **argv, int len);
 bool	check_for_map_start(char *buffer, t_main *main);
 int		map_skip_space(int i, char *b, char id);
-int		check_map_fragments(t_main *main, char *b, int *c);
+int		check_map_fragments(t_hive *h, char *b, int *c);
 
 //parsing.c
 void	parsing(t_main *main, char **argv);
@@ -174,7 +174,7 @@ void	draw_player(t_hive *h);
 void	draw_3d(t_hive *hive, int a, double i);
 
 //colors.c
-void	take_care_of_color(char *buffer, t_main *m, char id);
+void	take_care_of_color(char *buffer, t_hive *h, t_main *m, char id);
 void	dda_line(t_hive *hive);
 
 //free.c
@@ -190,7 +190,7 @@ void	initialize_mlx(t_data *img, t_vars *vars);
 
 //player.c
 void	player_rotation(t_hive *h, int offset);
-void	check_player_direction(t_main *main);
+void	check_player_direction(t_hive *h, t_main *main);
 
 //raycasting_utils.c
 void	first_horizontal(t_hive *h, int start_tile_pos_x, int start_tile_pos_y);

@@ -29,9 +29,9 @@ void	check_for_elements(char *buffer, t_main *main)
 	else if (match("EA", buffer) == true)
 		take_care_of_texure(buffer, main, 'E');
 	else if (match("F", buffer) == true)
-		take_care_of_color(buffer, main, 'F');
+		take_care_of_color(buffer, h, main, 'F');
 	else if (match("C", buffer) == true)
-		take_care_of_color(buffer, main, 'C');
+		take_care_of_color(buffer, h, main, 'C');
 }
 
 /**
@@ -39,14 +39,14 @@ void	check_for_elements(char *buffer, t_main *main)
  * 				and checks for the possible map elements using:
  * 				(check_for_elements) function.
  */
-void	find_elements(t_main *main)
+void	find_elements(t_hive *h, t_main *main)
 {
 	char	*buffer;
 
 	buffer = get_next_line(main->file_fd);
 	while (buffer != NULL)
 	{
-		check_for_elements(buffer, main);
+		check_for_elements(h, buffer, main);
 		free(buffer);
 		buffer = get_next_line(main->file_fd);
 	}
@@ -61,7 +61,7 @@ void	find_elements(t_main *main)
  * 				information that should not be contained inside of the map.
  * 				Then it uses (save_map) function to save the map.
  */
-static void	find_map(t_main *main, char **argv)
+static void	find_map(t_hive *h, t_main *main, char **argv)
 {
 	int		len;
 	int		c;
@@ -78,8 +78,8 @@ static void	find_map(t_main *main, char **argv)
 	while (buffer != NULL)
 	{
 		len++;
-		if (check_map_fragments(main, buffer, &c) == 1 && c == 2)
-			parsing_cleaning(main, buffer, EMPTY_LINE_IN_MAP);
+		if (check_map_fragments(h, buffer, &c) == 1 && c == 2)
+			parsing_cleaning(h, buffer, EMPTY_LINE_IN_MAP);
 		free(buffer);
 		buffer = get_next_line(main->file_fd);
 	}
@@ -94,7 +94,7 @@ static void	find_map(t_main *main, char **argv)
  * 					checks if the space is surounded by the walls.
  * 					If not it prints the error.
  */
-static void	check_for_open_walls(t_main *main)
+static void	check_for_open_walls(t_hive *h, t_main *main)
 {
 	int	i;
 	int	len;
@@ -102,19 +102,19 @@ static void	check_for_open_walls(t_main *main)
 	i = 0;
 	len = main->height - 1;
 	if (main->height < 3)
-		parsing_cleaning(main, NULL, MAP_IS_NOT_CLOSED);
+		parsing_cleaning(h, NULL, MAP_IS_NOT_CLOSED);
 	while (main->map[0][i] != '\0' && \
 			main->map[0][i] != '0' && main->map[0][i] != main->p_dir)
 		i++;
 	if (main->map[0][i] == '0' || main->map[0][i] == main->p_dir)
-		parsing_cleaning(main, NULL, MAP_IS_NOT_CLOSED);
+		parsing_cleaning(h, NULL, MAP_IS_NOT_CLOSED);
 	i = 0;
 	while (main->map[len][i] != '\0' && \
 			main->map[len][i] != '0' && main->map[len][i] != main->p_dir)
 		i++;
 	if (main->map[len][i] == '0' || main->map[len][i] == main->p_dir)
-		parsing_cleaning(main, NULL, MAP_IS_NOT_CLOSED);
-	check_spaces(main, 0, 0);
+		parsing_cleaning(h, NULL, MAP_IS_NOT_CLOSED);
+	check_spaces(h, main, 0, 0);
 }
 
 /**
@@ -129,7 +129,7 @@ void	parsing(t_main *main, char **argv)
 {
 	find_elements(main);
 	open_the_file(main, argv);
-	find_map(main, argv);
+	find_map(h, main, argv);
 	check_player_direction(main);
 	main->p_x = main->p_pos_x;
 	main->p_y = main->p_pos_y;

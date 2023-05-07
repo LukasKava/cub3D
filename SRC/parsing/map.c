@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 14:29:41 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/05 15:52:25 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/07 17:32:36 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	map_skip_space(int i, char *b, char id)
 	return (0);
 }
 
-int	check_map_fragments(t_main *main, char *b, int *c)
+int	check_map_fragments(t_hive *h, char *b, int *c)
 {
 	int	i;
 	int	x;
@@ -106,16 +106,16 @@ int	check_map_fragments(t_main *main, char *b, int *c)
 		return (2);
 	}
 	if (b[x] != '1' || b[i] != '1')
-		parsing_cleaning(main, b, MAP_NOT_CLOSED);
+		parsing_cleaning(h, b, MAP_NOT_CLOSED);
 	while (b[i] != '\0' && i != x)
 	{
 		if (b[i] == '1' || b[i] == '0' || b[i] == 'N' || b[i] == 'S' || \
 			b[i] == 'E' || b[i] == 'W' || b[i] == ' ')
 			i++;
 		else if (b[i] == '\t')
-			parsing_cleaning(main, b, TAB_IN_MAP_FOUND);
+			parsing_cleaning(h, b, TAB_IN_MAP_FOUND);
 		else
-			parsing_cleaning(main, b, WRONG_INFO_IN_MAP);
+			parsing_cleaning(h, b, WRONG_INFO_IN_MAP);
 	}
 	return (1);
 }
