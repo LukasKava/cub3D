@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 12:30:45 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/07 16:50:21 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/07 22:57:45 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	load_texure(t_texture *t, t_hive *h, char *t_path)
 	mlx_put_image_to_window(h->vars->mlx, h->vars->win, t->img, t->w, t->h);
 }
 
-static char	*prepare_element_path(char *str)
+char	*prepare_element_path(char *str)
 {
 	int		len;
 	char	*element_path;

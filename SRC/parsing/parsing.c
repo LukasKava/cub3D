@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 18:11:11 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/07 16:50:08 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/08 00:30:04 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * 				(take_care_of_texure) to save it up the in the main struct as
  * 				a texure.
  */
-static void	check_for_elements(char *buffer, t_main *main)
+void	check_for_elements(char *buffer, t_main *main)
 {
 	if (match("NO", buffer) == true)
 		take_care_of_texure(buffer, main, 'N');
@@ -50,6 +50,8 @@ void	find_elements(t_main *main)
 		free(buffer);
 		buffer = get_next_line(main->file_fd);
 	}
+	if (buffer != NULL)
+		free(buffer);
 	close(main->file_fd);
 }
 
@@ -123,23 +125,13 @@ static void	check_for_open_walls(t_main *main)
  * 				3. @check_player_direction: it checks for the players location.
  * 				4. @check_for_open_walls: it checks for the open walls.
  */
-void	parsing(t_main *main, t_hive *h, char **argv)
+void	parsing(t_main *main, char **argv)
 {
-	if (h->move < 5)
-		ft_exiterr(SPEED_TO_LITTLE);
 	find_elements(main);
 	open_the_file(main, argv);
 	find_map(main, argv);
 	check_player_direction(main);
 	main->p_x = main->p_pos_x;
 	main->p_y = main->p_pos_y;
-	if (main->p_dir == 'N')
-		h->p_offset = 0;
-	else if (h->main->p_dir == 'E')
-		h->p_offset = 90;
-	else if (h->main->p_dir == 'S')
-		h->p_offset = 180;
-	else if (h->main->p_dir == 'W')
-		h->p_offset = 270;
 	check_for_open_walls(main);
 }

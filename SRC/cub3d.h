@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 18:00:09 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/07 16:51:19 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/08 00:30:43 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ typedef struct s_main
 	char	p_pos_y;
 	int		p_x;
 	int		p_y;
-	void	*north_t;
-	void	*south_t;
-	void	*west_t;
-	void	*east_t;
+	char	*north_t;
+	char	*south_t;
+	char	*west_t;
+	char	*east_t;
 	char	**map;
 	int		height;
 	int		ground;
@@ -154,7 +154,7 @@ int		map_skip_space(int i, char *b, char id);
 int		check_map_fragments(t_main *main, char *b, int *c);
 
 //parsing.c
-void	parsing(t_main *main, t_hive *hive, char **argv);
+void	parsing(t_main *main, char **argv);
 
 //texure_handling.c
 void	load_texure(t_texture *t, t_hive *h, char *t_path);
@@ -178,13 +178,14 @@ void	take_care_of_color(char *buffer, t_main *m, char id);
 void	dda_line(t_hive *hive);
 
 //free.c
+void	freeing_hive(t_hive *hive, int error_code);
 void	parsing_cleaning(t_main *main, char *arr, int err);
 int		close_game(t_hive *hive);
 void	clear_the_main_struct(t_main *main);
 
 //init.c
 void	initialize_main(t_main *main);
-void	initialize_hive(t_hive *hive);
+void	initialize_hive(t_hive *hive, t_main *main);
 void	initialize_mlx(t_data *img, t_vars *vars);
 
 //player.c
@@ -208,8 +209,8 @@ void	count_vertical_scaling(t_hive *h);
 double	calculate_dist_draw(t_hive *h, int hor_hit, int ver_hit);
 
 //utils.c
+void	position_offset(t_main *main, t_hive *hive);
 int		check_wall(t_hive *h, int x_future, int y_future);
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void	player_center_rotation(t_hive *h, double tmp_x, double c, double s);
 void	load_assets(t_hive *h);

@@ -6,13 +6,13 @@
 #    By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 12:35:38 by lkavalia          #+#    #+#              #
-#    Updated: 2023/05/07 16:43:16 by lkavalia         ###   ########.fr        #
+#    Updated: 2023/05/07 22:41:33 by lkavalia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3d 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
+CFLAGS = -Wall -Werror -Wextra #-fsanitize=address
 
 SRCS =	./SRC/main.c 					\
 		./SRC/parsing/map.c				\
