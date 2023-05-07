@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 18:11:11 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/06 22:19:06 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/07 16:50:08 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	find_elements(t_main *main)
 	while (buffer != NULL)
 	{
 		check_for_elements(buffer, main);
-		printf("%s\n", buffer);
 		free(buffer);
 		buffer = get_next_line(main->file_fd);
 	}
@@ -66,7 +65,6 @@ static void	find_map(t_main *main, char **argv)
 	int		c;
 	char	*buffer;
 
-	printf(YELL "MAP PARSING ----------------------------------\n" B);
 	len = 0;
 	c = 0;
 	buffer = get_next_line(main->file_fd);
@@ -75,8 +73,6 @@ static void	find_map(t_main *main, char **argv)
 		free(buffer);
 		buffer = get_next_line(main->file_fd);
 	}
-	if (buffer != NULL)
-		printf("Start of the map: [%s]\n", buffer);
 	while (buffer != NULL)
 	{
 		len++;
@@ -129,6 +125,8 @@ static void	check_for_open_walls(t_main *main)
  */
 void	parsing(t_main *main, t_hive *h, char **argv)
 {
+	if (h->move < 5)
+		ft_exiterr(SPEED_TO_LITTLE);
 	find_elements(main);
 	open_the_file(main, argv);
 	find_map(main, argv);

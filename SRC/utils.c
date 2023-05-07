@@ -6,11 +6,29 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 20:54:28 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/06 22:40:11 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/07 16:45:07 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int	check_wall(t_hive *h, int x_future, int y_future)
+{
+	int	wallx;
+	int	wally;
+
+	wallx = (x_future - TILE) / (TILE);
+	wally = (y_future - TILE) / (TILE);
+	if (wally >= 0 && wally < h->main->height && wallx >= 0 && \
+		wallx < (int)ft_strlen(h->main->map[wally]))
+	{
+		if (h->main->map[wally][wallx] == '1')
+			return (1);
+	}
+	else
+		return (2);
+	return (0);
+}
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {

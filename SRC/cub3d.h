@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabbas <mabbas@students.42wolfsburg.de>    +#+  +:+       +#+        */
+/*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 18:00:09 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/07 13:13:04 by mabbas           ###   ########.fr       */
+/*   Updated: 2023/05/07 16:51:19 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 # include "../libs/libft/libft.h"
 # include "../libs/minilibx-mac/mlx.h"
 # include "../libs/minilibx-linux/mlx.h"
-
 
 typedef struct s_vars {
 	void	*mlx;
@@ -209,12 +208,17 @@ void	count_vertical_scaling(t_hive *h);
 double	calculate_dist_draw(t_hive *h, int hor_hit, int ver_hit);
 
 //utils.c
+int		check_wall(t_hive *h, int x_future, int y_future);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void	player_center_rotation(t_hive *h, double tmp_x, double c, double s);
 void	load_assets(t_hive *h);
 
+//wall_colision.c
+int		wall_colision_check(t_hive *h, int keycode);
+
 //ERROR Codes
+# define SPEED_TO_LITTLE		-5
 # define DEFAULT_CEILING_COLOR	-4
 # define DEFAULT_FLOOR_COLOR	-3
 # define TILE_SIZE		 		-2

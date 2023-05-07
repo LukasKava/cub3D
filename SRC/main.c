@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabbas <mabbas@students.42wolfsburg.de>    +#+  +:+       +#+        */
+/*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 17:30:05 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/07 00:09:34 by mabbas           ###   ########.fr       */
+/*   Updated: 2023/05/07 16:51:31 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-/** <- wall collision  -> -1  **/ 
-
 
 void	move_player(t_hive *h, int indentifier)
 {
@@ -48,7 +45,10 @@ int	key_hook(int keycode, t_hive *hive)
 	else if (keycode == RIGHT_KEY)
 		hive->angle -= 5;
 	else
-		move_player(hive, keycode);
+	{
+		if (wall_colision_check(hive, keycode) == 0)
+			move_player(hive, keycode);
+	}
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 12:30:45 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/05 15:51:05 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/07 16:50:21 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ static char	*prepare_element_path(char *str)
 	while (str[len] != '\0' && str[len] != '\n')
 		len++;
 	element_path = ft_calloc(len + 1, sizeof(char));
-	if (element_path == NULL)
-		printf(RED "calloc has failed!\n" B);
 	element_path[len] = '\0';
 	len--;
 	while (len >= 0)

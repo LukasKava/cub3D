@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 18:19:31 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/06 23:14:12 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/07 16:48:09 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 int	first_error_messages(int err)
 {
-	if (err == DEFAULT_CEILING_COLOR)
+	if (err == SPEED_TO_LITTLE)
+		ft_putstr_fd(RED "Speed should be more than 4!\n" B, 2);
+	else if (err == DEFAULT_CEILING_COLOR)
 		ft_putstr_fd(RED "Default ceiling color has to be: 0xE11E00!\n" B, 2);
 	else if (err == DEFAULT_FLOOR_COLOR)
 		ft_putstr_fd(RED "Default floor color has to be: 0xDC6400!\n" B, 2);
@@ -34,9 +36,7 @@ int	first_error_messages(int err)
 		ft_putstr_fd(RED "Map has to be the last in config file!\n" B, 2);
 	else if (err == CUB_CONTAINS_TRASH)
 		ft_putstr_fd(RED ".cub file contains trash characters!\n" B, 2);
-	else if (err == MISSING_ELEMENT_PATH)
-		ft_putstr_fd(RED "Texure path is not specified!\n" B, 2);
-	if (err >= -4 && err <= 7)
+	if (err >= -5 && err <= 6)
 		return (1);
 	return (0);
 }
@@ -50,6 +50,8 @@ void	ft_exiterr(int err)
 {
 	if (first_error_messages(err) == 1)
 		exit (err);
+	else if (err == MISSING_ELEMENT_PATH)
+		ft_putstr_fd(RED "Texure path is not specified!\n" B, 2);
 	else if (err == FOUND_ELEMENT_TRASH)
 		ft_putstr_fd(RED "Please check the texure field!\n" B, 2);
 	else if (err == INCORECT_COLOR_VAL)

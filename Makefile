@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mabbas <mabbas@students.42wolfsburg.de>    +#+  +:+       +#+         #
+#    By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 12:35:38 by lkavalia          #+#    #+#              #
-#    Updated: 2023/05/07 13:12:44 by mabbas           ###   ########.fr        #
+#    Updated: 2023/05/07 16:43:16 by lkavalia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRCS =	./SRC/main.c 					\
 		./SRC/raycasting2.c				\
 		./SRC/raycasting_utils.c        \
 		./SRC/utils.c 					\
+		./SRC/wall_colision.c 			\
 		./SRC/draw3d.c
 
 OBJS = $(SRCS:.c=.o)
