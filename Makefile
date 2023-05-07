@@ -6,7 +6,7 @@
 #    By: mabbas <mabbas@students.42wolfsburg.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 12:35:38 by lkavalia          #+#    #+#              #
-#    Updated: 2023/05/07 13:11:32 by mabbas           ###   ########.fr        #
+#    Updated: 2023/05/07 13:12:44 by mabbas           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,15 +41,15 @@ LIBFT = ./libs/libft/
 UNAME := $(shell uname)
 
 ifeq ($(UNAME), Darwin)
-	MLX = ./minilibx-mac/
+	MLX = ./libs/minilibx-mac/
 else
-	MLX = ./minilibx-linux/
+	MLX = ./libs/minilibx-linux/
 endif
 
 ifeq ($(UNAME), Darwin)
 	LFLAGS = -L$(MLX) -lmlx -framework OpenGL -framework AppKit 
 else
-	LFLAGS = -L$(MLX) -L/usr/include/X11/extensions -lX11 -lXext -lm ./minilibx-linux/libmlx.a
+	LFLAGS = -L$(MLX) -L/usr/include/X11/extensions -lX11 -lXext -lm ./libs/minilibx-linux/libmlx.a
 
 
 endif

@@ -6,7 +6,7 @@
 /*   By: mabbas <mabbas@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 18:00:09 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/07 12:55:59 by mabbas           ###   ########.fr       */
+/*   Updated: 2023/05/07 13:13:04 by mabbas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # include <stdlib.h>
 # include <math.h>
 # include "../libs/libft/libft.h"
-# include "../minilibx-mac/mlx.h"
-# include "../minilibx-linux/mlx.h"
+# include "../libs/minilibx-mac/mlx.h"
+# include "../libs/minilibx-linux/mlx.h"
 
 
 typedef struct s_vars {
