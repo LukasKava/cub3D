@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 17:11:19 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/07 17:17:42 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/08 01:08:00 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	initialize_main(t_main *main)
 
 void	calloc_struct(t_hive *hive)
 {
-	hive->main = ft_calloc(sizeof(t_main), 1);
 	hive->data = ft_calloc(sizeof(t_data), 1);
 	hive->vars = ft_calloc(sizeof(t_vars), 1);
 	hive->b = ft_calloc(sizeof(t_brez), 1);
@@ -47,7 +46,7 @@ void	calloc_struct(t_hive *hive)
 	hive->wall_tex->texture_east = ft_calloc(sizeof(t_texture), 1);
 }
 
-void	initialize_hive(t_hive *hive)
+void	initialize_hive(t_hive *hive, t_main *main)
 {
 	int	i;
 
@@ -70,6 +69,7 @@ void	initialize_hive(t_hive *hive)
 		hive->p_c[i] = 0;
 		hive->p_m[i++] = 0;
 	}
+	hive->main = main;
 }
 
 void	initialize_mlx(t_data *img, t_vars *vars)

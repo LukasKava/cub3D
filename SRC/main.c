@@ -6,33 +6,33 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 17:30:05 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/07 17:29:34 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/08 01:08:10 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	move_player(t_hive *h, int indentifier)
+void	move_player(t_hive *hive, int indentifier)
 {
 	if (indentifier == W_KEY)
 	{
-		h->p_c_x = h->p_m[0];
-		h->p_c_y = h->p_m[1];
+		hive->p_c_x = hive->p_m[0];
+		hive->p_c_y = hive->p_m[1];
 	}
 	if (indentifier == S_KEY)
 	{
-		h->p_c_x = h->p_m[6];
-		h->p_c_y = h->p_m[7];
+		hive->p_c_x = hive->p_m[6];
+		hive->p_c_y = hive->p_m[7];
 	}
 	if (indentifier == A_KEY)
 	{
-		h->p_c_x = h->p_m[4];
-		h->p_c_y = h->p_m[5];
+		hive->p_c_x = hive->p_m[4];
+		hive->p_c_y = hive->p_m[5];
 	}
 	if (indentifier == D_KEY)
 	{
-		h->p_c_x = h->p_m[2];
-		h->p_c_y = h->p_m[3];
+		hive->p_c_x = hive->p_m[2];
+		hive->p_c_y = hive->p_m[3];
 	}
 }
 
@@ -67,19 +67,23 @@ int	render(t_hive *h)
 int	main(int argc, char **argv)
 {
 	t_hive	*hive;
+	t_main	*main;
 
+	hive = NULL;
+	main = ft_calloc(sizeof(t_main), 1);
+	initialize_main(main);
+	check_basic_errors(main, argc, argv);
+	parsing(main, argv);
 	hive = ft_calloc(sizeof(t_hive), 1);
-	initialize_hive(hive);
-	initialize_main(hive->main);
-	check_basic_errors(hive, argc, argv);
-	//parsing(hive->main, hive, argv);
-	//initialize_mlx(hive->data, hive->vars);
-	//load_assets(hive);
-	//hive->p_c_x = TILE + (hive->main->p_x * (TILE)) + ((TILE) / 2);
-	//hive->p_c_y = TILE + (hive->main->p_y * (TILE)) + ((TILE) / 2);
-	//mlx_hook(hive->vars->win, 2, (1L) << 0, &key_hook, hive);
-	//mlx_hook(hive->vars->win, 17, 0L, close_game, hive);
-	//mlx_loop_hook(hive->vars->mlx, &render, hive);
-	//mlx_loop(hive->vars->mlx);
+	initialize_hive(hive, main);
+	position_offset(main, hive);
+	initialize_mlx(hive->data, hive->vars);
+	load_assets(hive);
+	hive->p_c_x = TILE + (hive->main->p_x * (TILE)) + ((TILE) / 2);
+	hive->p_c_y = TILE + (hive->main->p_y * (TILE)) + ((TILE) / 2);
+	mlx_hook(hive->vars->win, 2, (1L) << 0, &key_hook, hive);
+	mlx_hook(hive->vars->win, 17, 0L, close_game, hive);
+	mlx_loop_hook(hive->vars->mlx, &render, hive);
+	mlx_loop(hive->vars->mlx);
 	return (0);
 }
