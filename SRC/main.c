@@ -3,14 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: mabbas <mabbas@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 17:30:05 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/06 22:45:35 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/07 00:09:34 by mabbas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+/** <- wall collision  -> -1  **/ 
+
 
 void	move_player(t_hive *h, int indentifier)
 {

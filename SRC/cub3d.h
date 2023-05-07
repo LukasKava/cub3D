@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: mabbas <mabbas@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 18:00:09 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/06 23:15:58 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/07 12:55:59 by mabbas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@
 # include <stdlib.h>
 # include <math.h>
 # include "../libs/libft/libft.h"
-//# include "../minilibx-linux/mlx.h"
 # include "../minilibx-mac/mlx.h"
+# include "../minilibx-linux/mlx.h"
+
 
 typedef struct s_vars {
 	void	*mlx;

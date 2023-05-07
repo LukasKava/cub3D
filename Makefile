@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+         #
+#    By: mabbas <mabbas@students.42wolfsburg.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 12:35:38 by lkavalia          #+#    #+#              #
-#    Updated: 2023/05/06 23:14:01 by lkavalia         ###   ########.fr        #
+#    Updated: 2023/05/07 13:11:32 by mabbas           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,21 +36,22 @@ SRCS =	./SRC/main.c 					\
 
 OBJS = $(SRCS:.c=.o)
 
-
 LIBFT = ./libs/libft/
 
 UNAME := $(shell uname)
 
 ifeq ($(UNAME), Darwin)
-	MLX = ./minilibx-mac
+	MLX = ./minilibx-mac/
 else
-	MLX = ./minilibx-linux
+	MLX = ./minilibx-linux/
 endif
 
 ifeq ($(UNAME), Darwin)
 	LFLAGS = -L$(MLX) -lmlx -framework OpenGL -framework AppKit 
 else
-	LFLAGS = -L$(MLX) -lmlx -L/usr/include/X11/extensions -lX11 -lXext -lm
+	LFLAGS = -L$(MLX) -L/usr/include/X11/extensions -lX11 -lXext -lm ./minilibx-linux/libmlx.a
+
+
 endif
 
 all: libft $(NAME)
@@ -60,11 +61,11 @@ all: libft $(NAME)
 	@$(CC) $(CFLAGS) -Imlx -I/opt/X11/include -c $< -o $@
 
 minilibx-linux/libmlx.a:
-	@make -C minilibx-linux
+	@$(MAKE) -C $(MLX)
 	@echo "Making MLX..."
 
 minilibx-mac/libmlx.a:
-	@make -C minilibx-mac
+	@$(MAKE) -C minilibx-mac
 	@echo "Making MLX..."
 
 
@@ -73,7 +74,7 @@ libft:
 
 
 $(NAME): $(OBJS)
-	@$(CC) $(OBJS) $(CFLAGS) $(LIBFT)libft.a $(LFLAGS) -o $(NAME)
+	@$(CC) $(OBJS) $(CFLAGS) $(LFLAGS) $(LIBFT)libft.a  -o $(NAME)
 
 clean:
 	@$(MAKE) -C $(LIBFT) clean
@@ -88,5 +89,8 @@ fclean: clean
 re: fclean all
 	@echo "\nInstalling....."
 	@echo "\nInstalled"
+
+valgrind:
+	@valgrind 
 
 .PHONY: all clean fclean re libft

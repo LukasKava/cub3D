@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw3d.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: mabbas <mabbas@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 18:54:45 by rehernan          #+#    #+#             */
-/*   Updated: 2023/05/06 20:14:01 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/07 12:43:13 by mabbas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	my_mlx_pixel_get(t_hive *h, t_texture *texture, int x, int y)
 
 	color = texture->data + (y * texture->size_line + x * (texture->bpp / 8));
 	if (h->x_ray == true)
-		return (*(uint32_t *)color);
+		return (*(int *)color);
 	return (*(int *)color >> 1 & 8355711);
 }
 
