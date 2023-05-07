@@ -6,17 +6,38 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 11:28:17 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/06 22:50:22 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/07 17:23:21 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	parsing_cleaning(t_main *main, char *arr, int err)
+void	clear_the_hive(t_hive *h)
+{
+	if (h->main != NULL)
+		free(h->main);
+	if (h->b != NULL)
+		free(h->b);
+	if (h->wall_tex != NULL)
+	{
+		if (h->wall_tex->texture_north != NULL)
+			free(h->wall_tex->texture_north);
+		if (h->wall_tex->texture_south != NULL)
+			free(h->wall_tex->texture_south);
+		if (h->wall_tex->texture_west != NULL)
+			free(h->wall_tex->texture_west);
+		if (h->wall_tex->texture_east != NULL)
+			free(h->wall_tex->texture_east);
+		free(h->wall_tex);
+	}
+}
+
+void	parsing_cleaning(t_hive *h, char *arr, int err)
 {
 	if (arr != NULL)
 		free(arr);
-	clear_the_main_struct(main);
+	clear_the_main_struct(h->main);
+	clear_the_hive(h);
 	ft_exiterr(err);
 }
 

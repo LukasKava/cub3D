@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 12:24:37 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/04/16 17:21:24 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/07 17:44:25 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	check_left(t_main *main, int x, int y, int x_l)
  * FUNCTION: (check_spaces) takes care of checking around of each cell 
  * 			that is empty if nearby cells are empty too.
  */
-void	check_spaces(t_main *main, int x, int y)
+void	check_spaces(t_hive *h, t_main *main, int x, int y)
 {
 	while (y < main->height)
 	{
@@ -126,11 +126,11 @@ void	check_spaces(t_main *main, int x, int y)
 			{
 				main->map[y][x] = '+';
 				if (check_right(main, x, y, x + 1) == 1)
-					parsing_cleaning(main, NULL, MAP_IS_NOT_CLOSED);
+					parsing_cleaning(h, NULL, MAP_IS_NOT_CLOSED);
 				if (check_middle(main, x, y) == 1)
-					parsing_cleaning(main, NULL, MAP_IS_NOT_CLOSED);
+					parsing_cleaning(h, NULL, MAP_IS_NOT_CLOSED);
 				if (check_left(main, x, y, x - 1) == 1)
-					parsing_cleaning(main, NULL, MAP_IS_NOT_CLOSED);
+					parsing_cleaning(h, NULL, MAP_IS_NOT_CLOSED);
 			}
 			if (x + 3 < (int)ft_strlen(main->map[y]) && \
 									main->map[y][x + 3] == ' ')

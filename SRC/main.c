@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 17:30:05 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/07 16:51:31 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/07 17:29:34 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,15 +71,15 @@ int	main(int argc, char **argv)
 	hive = ft_calloc(sizeof(t_hive), 1);
 	initialize_hive(hive);
 	initialize_main(hive->main);
-	check_basic_errors(hive->main, argc, argv);
-	parsing(hive->main, hive, argv);
-	initialize_mlx(hive->data, hive->vars);
-	load_assets(hive);
-	hive->p_c_x = TILE + (hive->main->p_x * (TILE)) + ((TILE) / 2);
-	hive->p_c_y = TILE + (hive->main->p_y * (TILE)) + ((TILE) / 2);
-	mlx_hook(hive->vars->win, 2, (1L) << 0, &key_hook, hive);
-	mlx_hook(hive->vars->win, 17, 0L, close_game, hive);
-	mlx_loop_hook(hive->vars->mlx, &render, hive);
-	mlx_loop(hive->vars->mlx);
+	check_basic_errors(hive, argc, argv);
+	//parsing(hive->main, hive, argv);
+	//initialize_mlx(hive->data, hive->vars);
+	//load_assets(hive);
+	//hive->p_c_x = TILE + (hive->main->p_x * (TILE)) + ((TILE) / 2);
+	//hive->p_c_y = TILE + (hive->main->p_y * (TILE)) + ((TILE) / 2);
+	//mlx_hook(hive->vars->win, 2, (1L) << 0, &key_hook, hive);
+	//mlx_hook(hive->vars->win, 17, 0L, close_game, hive);
+	//mlx_loop_hook(hive->vars->mlx, &render, hive);
+	//mlx_loop(hive->vars->mlx);
 	return (0);
 }

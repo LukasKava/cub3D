@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 12:30:40 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/06 22:27:46 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/07 17:51:32 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * 				That there would not be more than one player. And then it saves
  * 				the position of the player and its direction in the main struct.
  */
-void	check_player_direction(t_main *main)
+void	check_player_direction(t_hive *h, t_main *main)
 {
 	int		i;
 	int		x;
@@ -32,7 +32,7 @@ void	check_player_direction(t_main *main)
 				main->map[i][x] == 'E' || main->map[i][x] == 'W')
 			{
 				if (main->p_dir != '0')
-					parsing_cleaning(main, NULL, MORE_THAN_ONE_PLAYER);
+					parsing_cleaning(h, NULL, MORE_THAN_ONE_PLAYER);
 				main->p_dir = main->map[i][x];
 				main->p_pos_x = x;
 				main->p_pos_y = i;
@@ -43,7 +43,7 @@ void	check_player_direction(t_main *main)
 		i++;
 	}
 	if (main->p_dir == '0')
-		parsing_cleaning(main, NULL, PLAYER_DOES_NOT_EXIST);
+		parsing_cleaning(h, NULL, PLAYER_DOES_NOT_EXIST);
 }
 
 void	initialize_rectangle(t_hive *h)

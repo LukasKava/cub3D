@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:25:57 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/05 14:00:19 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/07 17:47:01 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static bool	confirm_possible_color_val(char **val)
 	return (true);
 }
 
-void	take_care_of_color(char *buffer, t_main *m, char id)
+void	take_care_of_color(char *buffer, t_hive *h, t_main *m, char id)
 {
 	int		i;
 	char	*val;
@@ -54,7 +54,7 @@ void	take_care_of_color(char *buffer, t_main *m, char id)
 		while (c[i] != NULL)
 			free(c[i++]);
 		free(c);
-		parsing_cleaning(m, val, INCORECT_COLOR_VAL);
+		parsing_cleaning(h, val, INCORECT_COLOR_VAL);
 	}
 	if (id == 'F')
 		m->ground = (ft_atoi(c[0]) << 16) + \

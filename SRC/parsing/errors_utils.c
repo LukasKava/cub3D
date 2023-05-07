@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 18:56:13 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/06 23:16:42 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/07 17:45:25 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ bool	component_found(char *str)
 	return (check);
 }
 
-void	find_trash(t_main *main, char *s)
+void	find_trash(t_hive *h, t_main *main, char *s)
 {
 	int	i;
 
@@ -85,6 +85,6 @@ void	find_trash(t_main *main, char *s)
 	{
 		free (s);
 		close(main->file_fd);
-		ft_exiterr(CUB_CONTAINS_TRASH);
+		parsing_cleaning(h, NULL, CUB_CONTAINS_TRASH);
 	}
 }
