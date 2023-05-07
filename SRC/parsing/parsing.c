@@ -6,9 +6,10 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 18:11:11 by lkavalia          #+#    #+#             */
-/*   Updated: 2023/05/08 01:07:29 by lkavalia         ###   ########.fr       */
+/*   Updated: 2023/05/08 01:10:30 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../cub3d.h"
 
@@ -127,9 +128,7 @@ static void	check_for_open_walls(t_hive *h, t_main *main)
  */
 void	parsing(t_main *main, char **argv)
 {
-
 	find_elements(main);
-
 	open_the_file(main, argv);
 	find_map(h, main, argv);
 	check_player_direction(main);
